@@ -2,14 +2,16 @@
 <html lang="fa">
 <head>
 <meta charset="UTF-8">
-<title>سایت میلاد</title>
+<title>Milad Site</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <style>
 body{
 margin:0;
 font-family:tahoma;
-background:linear-gradient(135deg,#667eea,#764ba2);
+background:linear-gradient(270deg,#667eea,#764ba2,#6a11cb,#2575fc);
+background-size:800% 800%;
+animation:gradient 10s ease infinite;
 color:white;
 display:flex;
 flex-direction:column;
@@ -17,6 +19,13 @@ justify-content:center;
 align-items:center;
 height:100vh;
 text-align:center;
+overflow:hidden;
+}
+
+@keyframes gradient{
+0%{background-position:0% 50%;}
+50%{background-position:100% 50%;}
+100%{background-position:0% 50%;}
 }
 
 h1{
@@ -26,6 +35,7 @@ animation:fade 2s ease-in-out;
 
 p{
 opacity:0.9;
+margin-bottom:20px;
 }
 
 .btn{
@@ -37,10 +47,12 @@ display:inline-block;
 margin:10px;
 font-size:18px;
 transition:0.3s;
+box-shadow:0 0 10px rgba(0,0,0,0.3);
 }
 
 .btn:hover{
 transform:scale(1.1);
+box-shadow:0 0 20px rgba(255,255,255,0.7);
 }
 
 .whatsapp{
@@ -56,36 +68,77 @@ from{opacity:0;transform:translateY(-20px);}
 to{opacity:1;transform:translateY(0);}
 }
 
-.player{
-margin-top:25px;
+/* دکمه موزیک */
+.music-btn{
+position:fixed;
+bottom:20px;
+right:20px;
+background:#fff;
+color:#333;
+border:none;
+border-radius:50%;
+width:60px;
+height:60px;
+font-size:20px;
+box-shadow:0 0 15px rgba(0,0,0,0.3);
+}
+
+/* افکت ستاره */
+.star{
+position:absolute;
+width:3px;
+height:3px;
 background:white;
-padding:10px;
-border-radius:20px;
+animation:twinkle 2s infinite alternate;
+}
+
+@keyframes twinkle{
+from{opacity:0.2;}
+to{opacity:1;}
 }
 </style>
 
 </head>
 
-<body>
+<body onclick="playMusic()">
 
 <h1>🔥 به سایت میلاد خوش اومدی 🔥</h1>
+<p>😎 این اولین سایت خفن من هست</p>
 
-<p>😎 این اولین سایت تستی من هست</p>
-
-<a href="https://wa.me/989014545513" class="btn whatsapp">
-📱 واتساپ
-</a>
-
-<a href="https://instagram.com/najimilad_66" class="btn instagram">
-📸 اینستاگرام
-</a>
+<a href="https://wa.me/989014545513" class="btn whatsapp">📱 واتساپ</a>
+<a href="https://instagram.com/najimilad_66" class="btn instagram">📸 اینستاگرام</a>
 
 <!-- موزیک -->
-<div class="player">
-<audio controls>
-  <source src="https://dl.espressif.com/dl/audio/ff-16b-2c-44100hz.mp3" type="audio/mpeg">
+<audio id="bgMusic" loop>
+<source src="https://dl.espressif.com/dl/audio/ff-16b-2c-44100hz.mp3" type="audio/mpeg">
 </audio>
-</div>
+
+<button class="music-btn" onclick="toggleMusic()">🔊</button>
+
+<script>
+let music = document.getElementById("bgMusic");
+
+function playMusic(){
+music.play();
+}
+
+function toggleMusic(){
+if(music.paused){
+music.play();
+}else{
+music.pause();
+}
+}
+
+/* ستاره‌ها */
+for(let i=0;i<50;i++){
+let star=document.createElement("div");
+star.className="star";
+star.style.top=Math.random()*100+"%";
+star.style.left=Math.random()*100+"%";
+document.body.appendChild(star);
+}
+</script>
 
 </body>
 </html>
