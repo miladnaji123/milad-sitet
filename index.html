@@ -4,30 +4,81 @@
 <meta charset="UTF-8">
 <title>سایت میلاد</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+body{
+margin:0;
+font-family:tahoma;
+background:linear-gradient(135deg,#667eea,#764ba2);
+color:white;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+height:100vh;
+text-align:center;
+}
+
+h1{
+font-size:28px;
+animation:fade 2s ease-in-out;
+}
+
+p{
+opacity:0.9;
+}
+
+.btn{
+padding:14px 30px;
+border-radius:12px;
+text-decoration:none;
+color:white;
+display:inline-block;
+margin:10px;
+font-size:18px;
+transition:0.3s;
+}
+
+.btn:hover{
+transform:scale(1.1);
+}
+
+.whatsapp{
+background:#25D366;
+}
+
+.instagram{
+background:#E1306C;
+}
+
+@keyframes fade{
+from{opacity:0;transform:translateY(-20px);}
+to{opacity:1;transform:translateY(0);}
+}
+
+audio{
+margin-top:20px;
+}
+</style>
+
 </head>
 
-<body style="margin:0;text-align:center;font-family:tahoma;background:linear-gradient(to right,#667eea,#764ba2);color:white;height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;">
+<body>
 
 <h1>🔥 به سایت میلاد خوش اومدی 🔥</h1>
 
 <p>😎 این اولین سایت تستی من هست</p>
 
-<br>
-
-<a href="https://wa.me/989014545513"
-style="padding:12px 25px;background:#25D366;color:white;text-decoration:none;border-radius:10px;display:inline-block;">
+<a href="https://wa.me/989014545513" class="btn whatsapp">
 📱 واتساپ
 </a>
 
-<br><br>
-
-<a href="https://instagram.com/najimilad_66"
-style="padding:12px 25px;background:#E1306C;color:white;text-decoration:none;border-radius:10px;display:inline-block;">
+<a href="https://instagram.com/najimilad_66" class="btn instagram">
 📸 اینستاگرام
 </a>
 
 <!-- موزیک -->
-<audio autoplay loop>
+<audio controls>
   <source src="https://files.catbox.moe/3xte6z.mp3" type="audio/mpeg">
 </audio>
 
