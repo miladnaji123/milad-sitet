@@ -56,8 +56,11 @@ from{opacity:0;transform:translateY(-20px);}
 to{opacity:1;transform:translateY(0);}
 }
 
-audio{
-margin-top:20px;
+.player{
+margin-top:25px;
+background:white;
+padding:10px;
+border-radius:20px;
 }
 </style>
 
@@ -78,9 +81,11 @@ margin-top:20px;
 </a>
 
 <!-- موزیک -->
+<div class="player">
 <audio controls>
-  <source src="https://files.catbox.moe/3xte6z.mp3" type="audio/mpeg">
+  <source src="https://dl.espressif.com/dl/audio/ff-16b-2c-44100hz.mp3" type="audio/mpeg">
 </audio>
+</div>
 
 </body>
 </html>
