@@ -3,82 +3,162 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Milad Site</title>
+<title>Milad Pro Player</title>
 
 <style>
 body {
   margin: 0;
   font-family: sans-serif;
-  text-align: center;
-  color: white;
   background: linear-gradient(135deg, #000, #111, #222);
+  color: white;
+  text-align: center;
 }
 
 .container {
-  margin-top: 100px;
+  margin-top: 50px;
 }
 
-h1 {
-  font-size: 30px;
+.player {
+  width: 300px;
+  margin: auto;
+  background: #1a1a1a;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 0 20px #000;
 }
 
-.btn {
-  display: block;
-  width: 220px;
-  margin: 15px auto;
-  padding: 15px;
-  border-radius: 10px;
-  text-decoration: none;
-  color: white;
+.title {
   font-size: 18px;
-  transition: 0.3s;
+  margin-bottom: 10px;
 }
 
-.whatsapp {
+.controls button {
+  margin: 10px;
+  padding: 10px;
+  border: none;
+  border-radius: 10px;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.play { background: #25D366; }
+.next { background: #555; }
+.prev { background: #555; }
+
+.progress {
+  width: 100%;
+  height: 5px;
+  background: #444;
+  margin: 10px 0;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.progress-bar {
+  height: 5px;
   background: #25D366;
+  width: 0%;
+  border-radius: 5px;
 }
 
-.instagram {
-  background: #E1306C;
-}
-
-.btn:hover {
-  transform: scale(1.1);
+.time {
+  font-size: 14px;
 }
 </style>
 
 </head>
+
 <body>
 
 <div class="container">
-  <h1>به سایت میلاد خوش اومدی 😎🔥</h1>
+  <h2>🎧 موزیک پلیر حرفه‌ای</h2>
 
-  <!-- واتساپ هوشمند -->
-  <a href="#" onclick="sendMessage()" class="btn whatsapp">
-    📱 واتساپ
-  </a>
+  <div class="player">
+    <div class="title" id="title">آهنگ 1</div>
 
-  <!-- اینستاگرام -->
-  <a href="https://instagram.com/najimilad_66" class="btn instagram">
-    📸 اینستاگرام
-  </a>
+    <div class="progress" onclick="setProgress(event)">
+      <div class="progress-bar" id="progress"></div>
+    </div>
+
+    <div class="time" id="time">0:00</div>
+
+    <div class="controls">
+      <button class="prev" onclick="prevSong()">⏮</button>
+      <button class="play" onclick="togglePlay()">▶</button>
+      <button class="next" onclick="nextSong()">⏭</button>
+    </div>
+  </div>
 </div>
 
-<!-- موزیک پس زمینه -->
-<audio autoplay loop>
-  <source src="https://dl.espressif.com/dl/audio/ff-16b-2c-44100hz.mp3" type="audio/mp3">
-</audio>
+<audio id="audio"></audio>
 
 <script>
-function sendMessage() {
-  let name = prompt("اسمت چیه؟ 😎");
+let songs = [
+  {
+    title: "آهنگ 1",
+    src: "https://dl.espressif.com/dl/audio/ff-16b-2c-44100hz.mp3"
+  },
+  {
+    title: "آهنگ 2",
+    src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
+  },
+  {
+    title: "آهنگ 3",
+    src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"
+  }
+];
 
-  if (name != null && name != "") {
-    let message = "سلام میلاد 👋 من " + name + " هستم، سایتتو دیدم خیلی خفن بود 🔥";
-    let url = "https://wa.me/989014545513?text=" + encodeURIComponent(message);
-    window.open(url, "_blank");
+let current = 0;
+let audio = document.getElementById("audio");
+let title = document.getElementById("title");
+let progress = document.getElementById("progress");
+let time = document.getElementById("time");
+
+function loadSong(index) {
+  audio.src = songs[index].src;
+  title.innerText = songs[index].title;
+}
+
+function togglePlay() {
+  if (audio.paused) {
+    audio.play();
+  } else {
+    audio.pause();
   }
 }
+
+function nextSong() {
+  current = (current + 1) % songs.length;
+  loadSong(current);
+  audio.play();
+}
+
+function prevSong() {
+  current = (current - 1 + songs.length) % songs.length;
+  loadSong(current);
+  audio.play();
+}
+
+audio.addEventListener("timeupdate", () => {
+  let percent = (audio.currentTime / audio.duration) * 100;
+  progress.style.width = percent + "%";
+
+  let minutes = Math.floor(audio.currentTime / 60);
+  let seconds = Math.floor(audio.currentTime % 60);
+  if (seconds < 10) seconds = "0" + seconds;
+
+  time.innerText = minutes + ":" + seconds;
+});
+
+function setProgress(e) {
+  let width = e.currentTarget.clientWidth;
+  let clickX = e.offsetX;
+  let duration = audio.duration;
+
+  audio.currentTime = (clickX / width) * duration;
+}
+
+loadSong(current);
 </script>
 
 </body>
