@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <title>تماس با من</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Tahoma;
+      background: linear-gradient(135deg, #1e1e2f, #3a3a5f);
+      color: white;
+      text-align: center;
+    }
+
+    .navbar {
+      background: #111;
+      padding: 15px;
+    }
+
+    .navbar a {
+      color: white;
+      margin: 0 15px;
+      text-decoration: none;
+      font-size: 18px;
+    }
+
+    .navbar a:hover {
+      color: #00ffd5;
+    }
+
+    .container {
+      margin-top: 100px;
+    }
+
+    input, textarea {
+      padding: 10px;
+      width: 250px;
+      margin: 10px;
+      border-radius: 8px;
+      border: none;
+    }
+
+    button {
+      padding: 12px 25px;
+      border: none;
+      border-radius: 10px;
+      background: #00ffd5;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="navbar">
+    <a href="index.html">خانه</a>
+    <a href="about.html">درباره من</a>
+    <a href="contact.html">تماس با من</a>
+  </div>
+
+  <div class="container">
+    <h1>تماس با من 📞</h1>
+
+    <p>ایمیل: example@gmail.com</p>
+
+    <input type="text" placeholder="نام شما"><br>
+    <input type="email" placeholder="ایمیل شما"><br>
+    <textarea placeholder="پیام شما"></textarea><br>
+
+    <button onclick="alert('پیامت ارسال شد 😍')">
+      ارسال
+    </button>
+  </div>
+
+</body>
+</html>
