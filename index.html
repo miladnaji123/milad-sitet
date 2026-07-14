@@ -1,198 +1,262 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="fa">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>میلاد ناجی | Milad Naji</title>
+<title>Milad Naji</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn&display=swap" rel="stylesheet">
 
 <style>
 *{
-margin:0;
-padding:0;
-box-sizing:border-box;
-font-family:tahoma;
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Vazirmatn',sans-serif;
 }
 
 body{
-background:linear-gradient(135deg,#080808,#190028,#2d0038);
-color:white;
-overflow-x:hidden;
+  background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+  color:white;
+  text-align:center;
 }
 
-header{
-position:fixed;
-top:0;
-width:100%;
-padding:15px;
-background:rgba(0,0,0,.75);
-backdrop-filter:blur(10px);
-display:flex;
-justify-content:space-between;
-align-items:center;
-z-index:1000;
+/* کانتینر */
+.container{
+  padding:30px;
 }
 
-.logo{
-font-size:28px;
-font-weight:bold;
-color:#ff2a2a;
-text-shadow:0 0 20px red;
+/* پروفایل */
+.profile{
+  width:120px;
+  border-radius:50%;
+  margin:20px auto;
+  box-shadow:0 0 20px #00ffcc;
 }
 
-nav a{
-color:white;
-text-decoration:none;
-margin:10px;
-transition:.3s;
+/* متن */
+h1{
+  color:#00ffcc;
+  text-shadow:0 0 10px #00ffcc;
 }
 
-nav a:hover{
-color:#ff00ff;
-text-shadow:0 0 15px #ff00ff;
+.tag{
+  opacity:.8;
+  margin-bottom:20px;
 }
 
-.hero{
-height:100vh;
-display:flex;
-justify-content:center;
-align-items:center;
-flex-direction:column;
-text-align:center;
-padding:20px;
-}
-
-.hero h1{
-font-size:60px;
-color:#ff2a2a;
-text-shadow:0 0 30px red;
-margin-bottom:20px;
-}
-
-.hero p{
-font-size:22px;
-color:#ddd;
-margin-bottom:30px;
-}
-
+/* دکمه‌ها */
 .btn{
-padding:15px 35px;
-background:#ff0033;
-border:none;
-border-radius:40px;
-font-size:20px;
-color:white;
-cursor:pointer;
-transition:.4s;
-box-shadow:0 0 25px red;
+  display:block;
+  width:250px;
+  margin:10px auto;
+  padding:15px;
+  border-radius:12px;
+  font-size:18px;
+  border:none;
+  color:white;
+  cursor:pointer;
+  transition:.3s;
 }
 
 .btn:hover{
-background:#ff00ff;
-box-shadow:0 0 35px #ff00ff;
-transform:scale(1.08);
+  transform:scale(1.05);
 }
 
-.cards{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
-gap:25px;
-padding:60px 20px;
+.whatsapp{background:#25D366;}
+.instagram{background:linear-gradient(45deg,#833AB4,#FD1D1D,#FCAF45);}
+
+/* موزیک پلیر */
+.player{
+  margin-top:30px;
+  background:#111;
+  padding:20px;
+  border-radius:15px;
 }
 
-.card{
-background:#111;
-padding:30px;
-border-radius:20px;
-text-align:center;
-transition:.4s;
-box-shadow:0 0 20px #000;
+.progress{
+  height:6px;
+  background:#333;
+  margin:10px 0;
+  cursor:pointer;
 }
 
-.card:hover{
-transform:translateY(-10px);
-box-shadow:0 0 30px #ff00ff;
+.bar{
+  height:6px;
+  width:0%;
+  background:#00ffcc;
 }
 
-.card h2{
-color:#ff2a2a;
-margin-bottom:15px;
+.controls button{
+  margin:5px;
+  padding:10px;
+  border:none;
+  border-radius:10px;
+  cursor:pointer;
 }
 
-footer{
-text-align:center;
-padding:30px;
-background:#000;
-margin-top:50px;
+/* چت */
+.chat{
+  margin-top:30px;
+  background:#111;
+  padding:15px;
+  border-radius:15px;
 }
 
-footer a{
-color:#ff00ff;
-text-decoration:none;
+#chatBox{
+  height:200px;
+  overflow-y:auto;
+  text-align:right;
+  margin-bottom:10px;
 }
+
+.user{color:#00ffcc;}
+.bot{color:#ccc;}
+
+input{
+  width:70%;
+  padding:10px;
+}
+
 </style>
 </head>
 
 <body>
 
-<header>
+<div class="container">
 
-<div class="logo">
-میلاد ناجی
+<img src="https://i.imgur.com/8Km9tLL.png" class="profile">
+
+<h1>Milad Naji 😈</h1>
+<div class="tag">با من چت کن 🔥</div>
+
+<!-- دکمه‌ها -->
+<button class="btn whatsapp" onclick="goWhats()">واتساپ</button>
+<a href="https://instagram.com/najimilad_66" class="btn instagram">اینستاگرام</a>
+
+<!-- موزیک -->
+<div class="player">
+<div id="song">آهنگ 1</div>
+
+<div class="progress" onclick="seek(event)">
+<div class="bar" id="bar"></div>
 </div>
 
-<nav>
-<a href="#">خانه</a>
-<a href="#">هوش مصنوعی</a>
-<a href="#">دانلود</a>
-<a href="#">موزیک</a>
-<a href="#">تماس</a>
-</nav>
+<div id="time">0:00</div>
 
-</header>
-
-<section class="hero">
-
-<h1>به سایت میلاد ناجی خوش آمدید</h1>
-
-<p>
-آموزش هوش مصنوعی، دانلود فایل، موزیک و آموزش‌های کاربردی
-</p>
-
-<button class="btn">
-شروع کنید
-</button>
-
-</section>
-
-<section class="cards">
-
-<div class="card">
-<h2>🤖 هوش مصنوعی</h2>
-<p>آموزش ChatGPT، Kling AI و Veo</p>
+<div class="controls">
+<button onclick="prev()">⏮</button>
+<button onclick="play()">▶</button>
+<button onclick="next()">⏭</button>
+</div>
 </div>
 
-<div class="card">
-<h2>📥 دانلود</h2>
-<p>دانلود فایل و ابزارهای کاربردی</p>
+<!-- چت -->
+<div class="chat">
+<div id="chatBox"></div>
+<input id="msg" placeholder="پیام بده...">
+<button onclick="send()">ارسال</button>
 </div>
 
-<div class="card">
-<h2>🎵 موزیک پلیر</h2>
-<p>پخش آنلاین موزیک</p>
 </div>
 
-<div class="card">
-<h2>📞 تماس با من</h2>
-<p>واتساپ و شبکه‌های اجتماعی</p>
-</div>
+<audio id="audio"></audio>
 
-</section>
+<script>
 
-<footer>
+/* واتساپ */
+function goWhats(){
+ let name=prompt("اسمت چیه؟ 😎");
+ if(!name) return;
+ let text="سلام میلاد من "+name+" هستم 🔥";
+ window.open("https://wa.me/989014545513?text="+encodeURIComponent(text));
+}
 
-ساخته شده با ❤️ توسط <b>میلاد ناجی</b>
+/* موزیک */
+let list=[
+{t:"آهنگ 1",s:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"},
+{t:"آهنگ 2",s:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"}
+];
 
-</footer>
+let i=0;
+let audio=document.getElementById("audio");
+
+function load(x){
+ audio.src=list[x].s;
+ document.getElementById("song").innerText=list[x].t;
+}
+
+function play(){
+ if(audio.paused) audio.play();
+ else audio.pause();
+}
+
+function next(){
+ i=(i+1)%list.length;
+ load(i);
+ audio.play();
+}
+
+function prev(){
+ i=(i-1+list.length)%list.length;
+ load(i);
+ audio.play();
+}
+
+audio.ontimeupdate=()=>{
+ let p=(audio.currentTime/audio.duration)*100;
+ document.getElementById("bar").style.width=p+"%";
+
+ let m=Math.floor(audio.currentTime/60);
+ let s=Math.floor(audio.currentTime%60);
+ if(s<10)s="0"+s;
+ document.getElementById("time").innerText=m+":"+s;
+}
+
+function seek(e){
+ let w=e.currentTarget.clientWidth;
+ audio.currentTime=(e.offsetX/w)*audio.duration;
+}
+
+/* چت */
+function send(){
+ let input=document.getElementById("msg");
+ let box=document.getElementById("chatBox");
+
+ let text=input.value;
+ if(!text) return;
+
+ box.innerHTML+=`<div class="user">👤: ${text}</div>`;
+
+ setTimeout(()=>{
+  let r=reply(text);
+  box.innerHTML+=`<div class="bot">🤖: ${r}</div>`;
+  box.scrollTop=box.scrollHeight;
+ },700);
+
+ input.value="";
+}
+
+function reply(msg){
+ msg=msg.toLowerCase();
+
+ if(msg.includes("سلام")) return "سلام داداش 😎";
+ if(msg.includes("خوبی")) return "مرسی تو خوبی؟";
+ if(msg.includes("اسم")) return "من ربات میلادم 🔥";
+
+ let arr=[
+ "جالب بود 😏",
+ "بیشتر بگو",
+ "خفنه 😎",
+ "نفهمیدم 😅"
+ ];
+
+ return arr[Math.floor(Math.random()*arr.length)];
+}
+
+load(i);
+
+</script>
 
 </body>
 </html>
