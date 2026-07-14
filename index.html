@@ -1,165 +1,198 @@
 <!DOCTYPE html>
-<html lang="fa">
+<html lang="fa" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Milad Pro Player</title>
+<title>میلاد ناجی | Milad Naji</title>
 
 <style>
-body {
-  margin: 0;
-  font-family: sans-serif;
-  background: linear-gradient(135deg, #000, #111, #222);
-  color: white;
-  text-align: center;
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:tahoma;
 }
 
-.container {
-  margin-top: 50px;
+body{
+background:linear-gradient(135deg,#080808,#190028,#2d0038);
+color:white;
+overflow-x:hidden;
 }
 
-.player {
-  width: 300px;
-  margin: auto;
-  background: #1a1a1a;
-  padding: 20px;
-  border-radius: 15px;
-  box-shadow: 0 0 20px #000;
+header{
+position:fixed;
+top:0;
+width:100%;
+padding:15px;
+background:rgba(0,0,0,.75);
+backdrop-filter:blur(10px);
+display:flex;
+justify-content:space-between;
+align-items:center;
+z-index:1000;
 }
 
-.title {
-  font-size: 18px;
-  margin-bottom: 10px;
+.logo{
+font-size:28px;
+font-weight:bold;
+color:#ff2a2a;
+text-shadow:0 0 20px red;
 }
 
-.controls button {
-  margin: 10px;
-  padding: 10px;
-  border: none;
-  border-radius: 10px;
-  font-size: 18px;
-  cursor: pointer;
+nav a{
+color:white;
+text-decoration:none;
+margin:10px;
+transition:.3s;
 }
 
-.play { background: #25D366; }
-.next { background: #555; }
-.prev { background: #555; }
-
-.progress {
-  width: 100%;
-  height: 5px;
-  background: #444;
-  margin: 10px 0;
-  border-radius: 5px;
-  cursor: pointer;
+nav a:hover{
+color:#ff00ff;
+text-shadow:0 0 15px #ff00ff;
 }
 
-.progress-bar {
-  height: 5px;
-  background: #25D366;
-  width: 0%;
-  border-radius: 5px;
+.hero{
+height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+flex-direction:column;
+text-align:center;
+padding:20px;
 }
 
-.time {
-  font-size: 14px;
+.hero h1{
+font-size:60px;
+color:#ff2a2a;
+text-shadow:0 0 30px red;
+margin-bottom:20px;
+}
+
+.hero p{
+font-size:22px;
+color:#ddd;
+margin-bottom:30px;
+}
+
+.btn{
+padding:15px 35px;
+background:#ff0033;
+border:none;
+border-radius:40px;
+font-size:20px;
+color:white;
+cursor:pointer;
+transition:.4s;
+box-shadow:0 0 25px red;
+}
+
+.btn:hover{
+background:#ff00ff;
+box-shadow:0 0 35px #ff00ff;
+transform:scale(1.08);
+}
+
+.cards{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(230px,1fr));
+gap:25px;
+padding:60px 20px;
+}
+
+.card{
+background:#111;
+padding:30px;
+border-radius:20px;
+text-align:center;
+transition:.4s;
+box-shadow:0 0 20px #000;
+}
+
+.card:hover{
+transform:translateY(-10px);
+box-shadow:0 0 30px #ff00ff;
+}
+
+.card h2{
+color:#ff2a2a;
+margin-bottom:15px;
+}
+
+footer{
+text-align:center;
+padding:30px;
+background:#000;
+margin-top:50px;
+}
+
+footer a{
+color:#ff00ff;
+text-decoration:none;
 }
 </style>
-
 </head>
 
 <body>
 
-<div class="container">
-  <h2>🎧 موزیک پلیر حرفه‌ای</h2>
+<header>
 
-  <div class="player">
-    <div class="title" id="title">آهنگ 1</div>
-
-    <div class="progress" onclick="setProgress(event)">
-      <div class="progress-bar" id="progress"></div>
-    </div>
-
-    <div class="time" id="time">0:00</div>
-
-    <div class="controls">
-      <button class="prev" onclick="prevSong()">⏮</button>
-      <button class="play" onclick="togglePlay()">▶</button>
-      <button class="next" onclick="nextSong()">⏭</button>
-    </div>
-  </div>
+<div class="logo">
+میلاد ناجی
 </div>
 
-<audio id="audio"></audio>
+<nav>
+<a href="#">خانه</a>
+<a href="#">هوش مصنوعی</a>
+<a href="#">دانلود</a>
+<a href="#">موزیک</a>
+<a href="#">تماس</a>
+</nav>
 
-<script>
-let songs = [
-  {
-    title: "آهنگ 1",
-    src: "https://dl.espressif.com/dl/audio/ff-16b-2c-44100hz.mp3"
-  },
-  {
-    title: "آهنگ 2",
-    src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"
-  },
-  {
-    title: "آهنگ 3",
-    src: "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"
-  }
-];
+</header>
 
-let current = 0;
-let audio = document.getElementById("audio");
-let title = document.getElementById("title");
-let progress = document.getElementById("progress");
-let time = document.getElementById("time");
+<section class="hero">
 
-function loadSong(index) {
-  audio.src = songs[index].src;
-  title.innerText = songs[index].title;
-}
+<h1>به سایت میلاد ناجی خوش آمدید</h1>
 
-function togglePlay() {
-  if (audio.paused) {
-    audio.play();
-  } else {
-    audio.pause();
-  }
-}
+<p>
+آموزش هوش مصنوعی، دانلود فایل، موزیک و آموزش‌های کاربردی
+</p>
 
-function nextSong() {
-  current = (current + 1) % songs.length;
-  loadSong(current);
-  audio.play();
-}
+<button class="btn">
+شروع کنید
+</button>
 
-function prevSong() {
-  current = (current - 1 + songs.length) % songs.length;
-  loadSong(current);
-  audio.play();
-}
+</section>
 
-audio.addEventListener("timeupdate", () => {
-  let percent = (audio.currentTime / audio.duration) * 100;
-  progress.style.width = percent + "%";
+<section class="cards">
 
-  let minutes = Math.floor(audio.currentTime / 60);
-  let seconds = Math.floor(audio.currentTime % 60);
-  if (seconds < 10) seconds = "0" + seconds;
+<div class="card">
+<h2>🤖 هوش مصنوعی</h2>
+<p>آموزش ChatGPT، Kling AI و Veo</p>
+</div>
 
-  time.innerText = minutes + ":" + seconds;
-});
+<div class="card">
+<h2>📥 دانلود</h2>
+<p>دانلود فایل و ابزارهای کاربردی</p>
+</div>
 
-function setProgress(e) {
-  let width = e.currentTarget.clientWidth;
-  let clickX = e.offsetX;
-  let duration = audio.duration;
+<div class="card">
+<h2>🎵 موزیک پلیر</h2>
+<p>پخش آنلاین موزیک</p>
+</div>
 
-  audio.currentTime = (clickX / width) * duration;
-}
+<div class="card">
+<h2>📞 تماس با من</h2>
+<p>واتساپ و شبکه‌های اجتماعی</p>
+</div>
 
-loadSong(current);
-</script>
+</section>
+
+<footer>
+
+ساخته شده با ❤️ توسط <b>میلاد ناجی</b>
+
+</footer>
 
 </body>
 </html>
