@@ -1,97 +1,21 @@
-/* ریست ساده */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: sans-serif;
-}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>صفحه من</title>
+</head>
 
-/* هدر */
-.header {
-  background: #111;
-  color: #fff;
-  padding: 15px 0;
-}
+<body>
 
-.container {
-  width: 90%;
-  margin: auto;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
+    <p id="text">اینجا قراره کلی چیز خفن بسازیم 😎</p>
 
-.logo {
-  font-size: 24px;
-  font-weight: bold;
-}
+    <button onclick="start()">شروع کنیم</button>
 
-.nav ul {
-  display: flex;
-  list-style: none;
-  gap: 20px;
-}
+    <script>
+        function start() {
+            document.getElementById("text").innerText = "شروع کردیم 🚀🔥";
+        }
+    </script>
 
-.nav a {
-  color: #fff;
-  text-decoration: none;
-  transition: 0.3s;
-}
-
-.nav a:hover {
-  color: #00bcd4;
-}
-
-/* هیرو سکشن */
-.hero {
-  height: 90vh;
-  background: linear-gradient(to right, #0f172a, #1e293b);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  color: white;
-}
-
-.hero-content {
-  animation: fadeIn 1.5s ease;
-}
-
-.hero-content h2 {
-  font-size: 40px;
-  margin-bottom: 15px;
-}
-
-.hero-content p {
-  font-size: 18px;
-  margin-bottom: 20px;
-  color: #cbd5e1;
-}
-
-.hero button {
-  padding: 12px 25px;
-  border: none;
-  background: #38bdf8;
-  color: white;
-  font-size: 16px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.hero button:hover {
-  background: #0ea5e9;
-  transform: scale(1.05);
-}
-
-/* انیمیشن */
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+</body>
+</html>
