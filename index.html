@@ -52,6 +52,12 @@
     button:hover {
       background: #eee;
     }
+
+    .test {
+      margin-top: 20px;
+      color: red;
+      font-size: 22px;
+    }
   </style>
 </head>
 
@@ -64,10 +70,10 @@
     <div id="text"></div>
 
     <button onclick="startTyping()">شروع آرامش ✨</button>
-  </div>
 
-  <!-- تست نمایش -->
-  <h1 style="color:red;">TEST OK</h1>
+    <!-- تست -->
+    <div class="test">TEST OK 999</div>
+  </div>
 
   <script>
     const messages = [
@@ -89,19 +95,4 @@
 
     function type() {
       if (i < messages.length) {
-        if (j < messages[i].length) {
-          document.getElementById("text").innerHTML += messages[i].charAt(j);
-          j++;
-          setTimeout(type, 50);
-        } else {
-          i++;
-          j = 0;
-          document.getElementById("text").innerHTML += "<br>";
-          setTimeout(type, 800);
-        }
-      }
-    }
-  </script>
-
-</body>
-</html>
+        if (j <
