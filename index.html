@@ -1,117 +1,138 @@
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#000000"><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="fa">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Calm Zone 🌿</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- PWA -->
-  <link rel="manifest" href="manifest.json">
-  <meta name="theme-color" content="#87CEEB">
+<title>Calm Zone 🌿</title>
 
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: Tahoma, sans-serif;
-      background: linear-gradient(135deg, #87CEEB, #B0E0E6);
-      height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
-      text-align: center;
-    }
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0d1b2a">
 
-    .container {
-      background: rgba(255,255,255,0.1);
-      padding: 30px;
-      border-radius: 20px;
-      backdrop-filter: blur(10px);
-      box-shadow: 0 0 20px rgba(0,0,0,0.2);
-    }
+<style>
+body {
+  margin: 0;
+  font-family: Tahoma;
+  background: linear-gradient(135deg, #0d1b2a, #1b263b);
+  color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+  font-size: 20px;
+}
 
-    h1 {
-      font-size: 40px;
-    }
+.container {
+  background: rgba(255,255,255,0.05);
+  padding: 35px;
+  border-radius: 20px;
+  backdrop-filter: blur(12px);
+  max-width: 350px;
+}
 
-    #text {
-      font-size: 20px;
-      margin-top: 15px;
-      min-height: 30px;
-    }
+h1 {
+  font-size: 38px;
+  margin-bottom: 10px;
+}
 
-    button {
-      margin-top: 20px;
-      padding: 12px 25px;
-      border: none;
-      border-radius: 10px;
-      background: white;
-      color: #333;
-      font-size: 16px;
-      cursor: pointer;
-    }
+#text {
+  margin-top: 20px;
+  min-height: 40px;
+  line-height: 1.8;
+}
 
-    .test {
-      margin-top: 20px;
-      color: red;
-      font-size: 22px;
-    }
-  </style>
+button {
+  margin-top: 25px;
+  padding: 14px 25px;
+  border: none;
+  border-radius: 12px;
+  background: #ffffff;
+  color: #0d1b2a;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+/* دکمه دسترسی */
+.accessibility {
+  margin-top: 15px;
+  font-size: 14px;
+  opacity: 0.8;
+}
+</style>
 </head>
 
 <body>
 
-  <div class="container">
-    <h1>Calm Zone 🌿</h1>
-    <p>یک جای امن برای آرامش تو 💙</p>
+<div class="container">
 
-    <div id="text"></div>
+<h1 aria-label="منطقه آرامش">Calm Zone 🌿</h1>
 
-    <button onclick="startTyping()">شروع آرامش ✨</button>
+<p>جایی برای آرام شدن ذهن و قلب تو 💙</p>
 
-    <div class="test">APP VERSION 1</div>
-  </div>
+<div id="text" aria-live="polite"></div>
 
-  <script>
-    const messages = [
-      "همه چی درست میشه...",
-      "نفس عمیق بکش...",
-      "تو قوی‌تری 💙",
-      "آرامش همینجاست..."
-    ];
+<button onclick="startTyping()" aria-label="شروع آرامش">
+شروع آرامش ✨
+</button>
 
-    let i = 0;
-    let j = 0;
+<button onclick="toggleFont()" class="accessibility">
+بزرگ‌نمایی متن 🔍
+</button>
 
-    function startTyping() {
-      document.getElementById("text").innerHTML = "";
-      i = 0;
+</div>
+
+<script>
+const messages = [
+"آرام باش... دنیا هنوز قشنگی‌های زیادی داره 💙",
+"نفس عمیق بکش... تو امنی 🌿",
+"هیچ چیزی برای همیشه سخت نمی‌مونه...",
+"تو قوی‌تر از چیزی هستی که فکر می‌کنی ✨",
+"همه چیز کم‌کم درست میشه..."
+];
+
+let i = 0;
+let j = 0;
+
+function startTyping() {
+  document.getElementById("text").innerHTML = "";
+  i = 0;
+  j = 0;
+  type();
+}
+
+function type() {
+  if (i < messages.length) {
+    if (j < messages[i].length) {
+      document.getElementById("text").innerHTML += messages[i][j];
+      j++;
+      setTimeout(type, 50);
+    } else {
+      i++;
       j = 0;
-      type();
+      document.getElementById("text").innerHTML += "<br><br>";
+      setTimeout(type, 800);
     }
+  }
+}
 
-    function type() {
-      if (i < messages.length) {
-        if (j < messages[i].length) {
-          document.getElementById("text").innerHTML += messages[i].charAt(j);
-          j++;
-          setTimeout(type, 50);
-        } else {
-          i++;
-          j = 0;
-          document.getElementById("text").innerHTML += "<br>";
-          setTimeout(type, 800);
-        }
-      }
-    }
+/* بزرگ کردن متن برای کم‌بینا */
+let big = false;
+function toggleFont() {
+  if (!big) {
+    document.body.style.fontSize = "26px";
+    big = true;
+  } else {
+    document.body.style.fontSize = "20px";
+    big = false;
+  }
+}
 
-    // Service Worker
-    if ('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('sw.js');
-    }
-  </script>
+/* Service Worker */
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('service-worker.js');
+}
+</script>
 
 </body>
 </html>
