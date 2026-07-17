@@ -1,105 +1,117 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fa">
 <head>
 <meta charset="UTF-8">
-<title>Milad 😎</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Calm Zone 🌿</title>
 
 <style>
 body {
   margin: 0;
-  height: 100vh;
-  background: black;
+  padding: 0;
+  font-family: Tahoma, sans-serif;
+  background: linear-gradient(135deg, #87CEFA, #B0E0E6); /* آبی آسمونی */
+  color: #03396c;
+  text-align: center;
   overflow: hidden;
-  font-family: Arial;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
 }
 
-/* متن نئونی */
-#text {
+.container {
+  position: relative;
+  top: 40%;
+  transform: translateY(-50%);
+}
+
+h1 {
   font-size: 50px;
-  color: #00ffcc;
-  text-shadow:
-    0 0 5px #00ffcc,
-    0 0 10px #00ffcc,
-    0 0 20px #00ffcc,
-    0 0 40px #00ffcc;
-  border-right: 3px solid #00ffcc;
-  white-space: nowrap;
-  overflow: hidden;
+  margin-bottom: 10px;
 }
 
-/* دکمه خفن */
-button {
-  margin-top: 40px;
-  padding: 12px 30px;
-  font-size: 18px;
-  color: black;
-  background: #00ffcc;
-  border: none;
-  cursor: pointer;
-  border-radius: 10px;
-  box-shadow: 0 0 10px #00ffcc;
+#text {
+  font-size: 22px;
+  margin-top: 20px;
+  min-height: 30px;
+}
+
+a {
+  display: inline-block;
+  margin-top: 30px;
+  padding: 10px 20px;
+  background: white;
+  color: #0077b6;
+  border-radius: 20px;
+  text-decoration: none;
   transition: 0.3s;
 }
 
-button:hover {
-  transform: scale(1.2);
-  box-shadow: 0 0 25px #00ffcc;
+a:hover {
+  background: #e0f7ff;
 }
 
-/* بک گراند متحرک */
-.bg {
+/* نور نرم آبی */
+.glow {
   position: absolute;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle, #00ffcc22 1px, transparent 1px);
-  background-size: 40px 40px;
-  animation: moveBg 10s linear infinite;
+  width: 300px;
+  height: 300px;
+  background: rgba(255,255,255,0.4);
+  border-radius: 50%;
+  filter: blur(100px);
+  animation: move 12s infinite alternate;
 }
 
-@keyframes moveBg {
-  from { transform: translateY(0); }
-  to { transform: translateY(40px); }
+@keyframes move {
+  from { transform: translate(-50px, -50px); }
+  to { transform: translate(50px, 50px); }
 }
 </style>
-
 </head>
+
 <body>
 
-<div class="bg"></div>
+<div class="glow"></div>
 
-<h1 id="text"></h1>
+<div class="container">
+  <h1>🌿 Calm Zone</h1>
+  <div id="text"></div>
 
-<button onclick="playSound()">🔥 Click Me</button>
-
-<a href="about.html">
-  <button>About Me</button>
-</a>
-
-<audio id="sound">
-  <source src="https://www.soundjay.com/button/sounds/button-3.mp3">
-</audio>
+  <a href="#">شروع آرامش ✨</a>
+</div>
 
 <script>
-let txt = "Milad Naji Website 🚀🔥";
+let texts = [
+  "به منطقه آرامش خوش اومدی 🌿",
+  "یه نفس عمیق بکش 😌",
+  "همه چیز درست میشه ✨",
+  "اینجا جای آرامشه 💙"
+];
+
 let i = 0;
+let j = 0;
+let currentText = "";
+let isDeleting = false;
 
 function type() {
-  if (i < txt.length) {
-    document.getElementById("text").innerHTML += txt.charAt(i);
-    i++;
-    setTimeout(type, 70);
+  currentText = texts[i];
+
+  if (!isDeleting) {
+    document.getElementById("text").innerHTML = currentText.substring(0, j++);
+    if (j > currentText.length) {
+      isDeleting = true;
+      setTimeout(type, 1500);
+      return;
+    }
+  } else {
+    document.getElementById("text").innerHTML = currentText.substring(0, j--);
+    if (j < 0) {
+      isDeleting = false;
+      i = (i + 1) % texts.length;
+    }
   }
+
+  setTimeout(type, isDeleting ? 50 : 100);
 }
 
-function playSound() {
-  document.getElementById("sound").play();
-}
-
-window.onload = type;
+type();
 </script>
 
 </body>
