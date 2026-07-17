@@ -13,10 +13,6 @@
             margin-top: 100px;
         }
 
-        h1 {
-            font-size: 40px;
-        }
-
         button {
             background-color: #ff9800;
             border: none;
@@ -25,16 +21,12 @@
             border-radius: 10px;
             cursor: pointer;
             transition: 0.3s;
+            margin: 10px;
         }
 
         button:hover {
             background-color: #e68900;
             transform: scale(1.1);
-        }
-
-        p {
-            font-size: 20px;
-            margin: 20px;
         }
     </style>
 </head>
@@ -45,17 +37,26 @@
 
     <p id="text">اینجا قراره کلی چیز خفن بسازیم 😎</p>
 
-    <button onclick="start()">شروع کنیم 🔊</button>
+    <button onclick="start()">شروع 🚀</button>
+    <button onclick="playMusic()">🎵 پخش موزیک</button>
+    <button onclick="pauseMusic()">⏸ توقف موزیک</button>
 
-    <!-- صدا -->
-    <audio id="sound" src="https://www.soundjay.com/button/sounds/button-3.mp3"></audio>
+    <!-- موزیک -->
+    <audio id="music" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
 
     <script>
         function start() {
             document.getElementById("text").innerText = "شروع کردیم 🚀🔥";
+        }
 
-            // پخش صدا
-            document.getElementById("sound").play();
+        function playMusic() {
+            document.getElementById("music").play();
+        }
+
+        function pauseMusic() {
+            document.getElementById("music").pause();
         }
     </script>
 
