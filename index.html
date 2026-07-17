@@ -1,31 +1,106 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>About Me</title>
+<title>Milad 😎</title>
 
 <style>
 body {
+  margin: 0;
+  height: 100vh;
   background: black;
-  color: white;
-  text-align: center;
+  overflow: hidden;
   font-family: Arial;
-  padding-top: 100px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
-a {
+/* متن نئونی */
+#text {
+  font-size: 50px;
   color: #00ffcc;
-  font-size: 20px;
+  text-shadow:
+    0 0 5px #00ffcc,
+    0 0 10px #00ffcc,
+    0 0 20px #00ffcc,
+    0 0 40px #00ffcc;
+  border-right: 3px solid #00ffcc;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+/* دکمه خفن */
+button {
+  margin-top: 40px;
+  padding: 12px 30px;
+  font-size: 18px;
+  color: black;
+  background: #00ffcc;
+  border: none;
+  cursor: pointer;
+  border-radius: 10px;
+  box-shadow: 0 0 10px #00ffcc;
+  transition: 0.3s;
+}
+
+button:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 25px #00ffcc;
+}
+
+/* بک گراند متحرک */
+.bg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle, #00ffcc22 1px, transparent 1px);
+  background-size: 40px 40px;
+  animation: moveBg 10s linear infinite;
+}
+
+@keyframes moveBg {
+  from { transform: translateY(0); }
+  to { transform: translateY(40px); }
 }
 </style>
 
 </head>
 <body>
 
-<h1>👋 سلام، این صفحه درباره منه</h1>
-<p>دارم برنامه‌نویسی یاد می‌گیرم و این اولین سایتمه 🚀</p>
+<div class="bg"></div>
 
-<a href="index.html">⬅ برگشت</a>
+<h1 id="text"></h1>
+
+<button onclick="playSound()">🔥 Click Me</button>
+
+<a href="about.html">
+  <button>About Me</button>
+</a>
+
+<audio id="sound">
+  <source src="https://www.soundjay.com/button/sounds/button-3.mp3">
+</audio>
+
+<script>
+let txt = "Milad Naji Website 🚀🔥";
+let i = 0;
+
+function type() {
+  if (i < txt.length) {
+    document.getElementById("text").innerHTML += txt.charAt(i);
+    i++;
+    setTimeout(type, 70);
+  }
+}
+
+function playSound() {
+  document.getElementById("sound").play();
+}
+
+window.onload = type;
+</script>
 
 </body>
 </html>
