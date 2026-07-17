@@ -1,41 +1,31 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Test</title>
+<meta charset="UTF-8">
+<title>About Me</title>
 
-  <style>
-    body {
-      background: black;
-      color: #00ffcc;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      font-family: Arial;
-      font-size: 30px;
-    }
-  </style>
+<style>
+body {
+  background: black;
+  color: white;
+  text-align: center;
+  font-family: Arial;
+  padding-top: 100px;
+}
+
+a {
+  color: #00ffcc;
+  font-size: 20px;
+}
+</style>
 
 </head>
 <body>
 
-<h1 id="text"></h1>
+<h1>👋 سلام، این صفحه درباره منه</h1>
+<p>دارم برنامه‌نویسی یاد می‌گیرم و این اولین سایتمه 🚀</p>
 
-<script>
-let txt = "Welcome to my site 😎🔥";
-let i = 0;
-
-function type() {
-  if (i < txt.length) {
-    document.getElementById("text").innerHTML += txt.charAt(i);
-    i++;
-    setTimeout(type, 100);
-  }
-}
-
-window.onload = type;
-</script>
+<a href="index.html">⬅ برگشت</a>
 
 </body>
 </html>
