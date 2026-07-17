@@ -1,262 +1,97 @@
-<!DOCTYPE html>
-<html lang="fa">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Milad Naji</title>
-
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn&display=swap" rel="stylesheet">
-
-<style>
-*{
-  margin:0;
-  padding:0;
-  box-sizing:border-box;
-  font-family:'Vazirmatn',sans-serif;
+/* ریست ساده */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: sans-serif;
 }
 
-body{
-  background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-  color:white;
-  text-align:center;
+/* هدر */
+.header {
+  background: #111;
+  color: #fff;
+  padding: 15px 0;
 }
 
-/* کانتینر */
-.container{
-  padding:30px;
+.container {
+  width: 90%;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
-/* پروفایل */
-.profile{
-  width:120px;
-  border-radius:50%;
-  margin:20px auto;
-  box-shadow:0 0 20px #00ffcc;
+.logo {
+  font-size: 24px;
+  font-weight: bold;
 }
 
-/* متن */
-h1{
-  color:#00ffcc;
-  text-shadow:0 0 10px #00ffcc;
+.nav ul {
+  display: flex;
+  list-style: none;
+  gap: 20px;
 }
 
-.tag{
-  opacity:.8;
-  margin-bottom:20px;
+.nav a {
+  color: #fff;
+  text-decoration: none;
+  transition: 0.3s;
 }
 
-/* دکمه‌ها */
-.btn{
-  display:block;
-  width:250px;
-  margin:10px auto;
-  padding:15px;
-  border-radius:12px;
-  font-size:18px;
-  border:none;
-  color:white;
-  cursor:pointer;
-  transition:.3s;
+.nav a:hover {
+  color: #00bcd4;
 }
 
-.btn:hover{
-  transform:scale(1.05);
+/* هیرو سکشن */
+.hero {
+  height: 90vh;
+  background: linear-gradient(to right, #0f172a, #1e293b);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  color: white;
 }
 
-.whatsapp{background:#25D366;}
-.instagram{background:linear-gradient(45deg,#833AB4,#FD1D1D,#FCAF45);}
-
-/* موزیک پلیر */
-.player{
-  margin-top:30px;
-  background:#111;
-  padding:20px;
-  border-radius:15px;
+.hero-content {
+  animation: fadeIn 1.5s ease;
 }
 
-.progress{
-  height:6px;
-  background:#333;
-  margin:10px 0;
-  cursor:pointer;
+.hero-content h2 {
+  font-size: 40px;
+  margin-bottom: 15px;
 }
 
-.bar{
-  height:6px;
-  width:0%;
-  background:#00ffcc;
+.hero-content p {
+  font-size: 18px;
+  margin-bottom: 20px;
+  color: #cbd5e1;
 }
 
-.controls button{
-  margin:5px;
-  padding:10px;
-  border:none;
-  border-radius:10px;
-  cursor:pointer;
+.hero button {
+  padding: 12px 25px;
+  border: none;
+  background: #38bdf8;
+  color: white;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
-/* چت */
-.chat{
-  margin-top:30px;
-  background:#111;
-  padding:15px;
-  border-radius:15px;
+.hero button:hover {
+  background: #0ea5e9;
+  transform: scale(1.05);
 }
 
-#chatBox{
-  height:200px;
-  overflow-y:auto;
-  text-align:right;
-  margin-bottom:10px;
+/* انیمیشن */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
-
-.user{color:#00ffcc;}
-.bot{color:#ccc;}
-
-input{
-  width:70%;
-  padding:10px;
-}
-
-</style>
-</head>
-
-<body>
-
-<div class="container">
-
-<img src="https://i.imgur.com/8Km9tLL.png" class="profile">
-
-<h1>Milad Naji 😈</h1>
-<div class="tag">با من چت کن 🔥</div>
-
-<!-- دکمه‌ها -->
-<button class="btn whatsapp" onclick="goWhats()">واتساپ</button>
-<a href="https://instagram.com/najimilad_66" class="btn instagram">اینستاگرام</a>
-
-<!-- موزیک -->
-<div class="player">
-<div id="song">آهنگ 1</div>
-
-<div class="progress" onclick="seek(event)">
-<div class="bar" id="bar"></div>
-</div>
-
-<div id="time">0:00</div>
-
-<div class="controls">
-<button onclick="prev()">⏮</button>
-<button onclick="play()">▶</button>
-<button onclick="next()">⏭</button>
-</div>
-</div>
-
-<!-- چت -->
-<div class="chat">
-<div id="chatBox"></div>
-<input id="msg" placeholder="پیام بده...">
-<button onclick="send()">ارسال</button>
-</div>
-
-</div>
-
-<audio id="audio"></audio>
-
-<script>
-
-/* واتساپ */
-function goWhats(){
- let name=prompt("اسمت چیه؟ 😎");
- if(!name) return;
- let text="سلام میلاد من "+name+" هستم 🔥";
- window.open("https://wa.me/989014545513?text="+encodeURIComponent(text));
-}
-
-/* موزیک */
-let list=[
-{t:"آهنگ 1",s:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3"},
-{t:"آهنگ 2",s:"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3"}
-];
-
-let i=0;
-let audio=document.getElementById("audio");
-
-function load(x){
- audio.src=list[x].s;
- document.getElementById("song").innerText=list[x].t;
-}
-
-function play(){
- if(audio.paused) audio.play();
- else audio.pause();
-}
-
-function next(){
- i=(i+1)%list.length;
- load(i);
- audio.play();
-}
-
-function prev(){
- i=(i-1+list.length)%list.length;
- load(i);
- audio.play();
-}
-
-audio.ontimeupdate=()=>{
- let p=(audio.currentTime/audio.duration)*100;
- document.getElementById("bar").style.width=p+"%";
-
- let m=Math.floor(audio.currentTime/60);
- let s=Math.floor(audio.currentTime%60);
- if(s<10)s="0"+s;
- document.getElementById("time").innerText=m+":"+s;
-}
-
-function seek(e){
- let w=e.currentTarget.clientWidth;
- audio.currentTime=(e.offsetX/w)*audio.duration;
-}
-
-/* چت */
-function send(){
- let input=document.getElementById("msg");
- let box=document.getElementById("chatBox");
-
- let text=input.value;
- if(!text) return;
-
- box.innerHTML+=`<div class="user">👤: ${text}</div>`;
-
- setTimeout(()=>{
-  let r=reply(text);
-  box.innerHTML+=`<div class="bot">🤖: ${r}</div>`;
-  box.scrollTop=box.scrollHeight;
- },700);
-
- input.value="";
-}
-
-function reply(msg){
- msg=msg.toLowerCase();
-
- if(msg.includes("سلام")) return "سلام داداش 😎";
- if(msg.includes("خوبی")) return "مرسی تو خوبی؟";
- if(msg.includes("اسم")) return "من ربات میلادم 🔥";
-
- let arr=[
- "جالب بود 😏",
- "بیشتر بگو",
- "خفنه 😎",
- "نفهمیدم 😅"
- ];
-
- return arr[Math.floor(Math.random()*arr.length)];
-}
-
-load(i);
-
-</script>
-
-</body>
-</html>
