@@ -33,7 +33,6 @@ body {
 
 h1 {
   font-size: 38px;
-  margin-bottom: 10px;
 }
 
 #text {
@@ -43,7 +42,7 @@ h1 {
 }
 
 button {
-  margin-top: 25px;
+  margin-top: 20px;
   padding: 14px 25px;
   border: none;
   border-radius: 12px;
@@ -52,13 +51,6 @@ button {
   font-size: 18px;
   cursor: pointer;
 }
-
-/* دکمه دسترسی */
-.accessibility {
-  margin-top: 15px;
-  font-size: 14px;
-  opacity: 0.8;
-}
 </style>
 </head>
 
@@ -66,66 +58,59 @@ button {
 
 <div class="container">
 
-<h1 aria-label="منطقه آرامش">Calm Zone 🌿</h1>
+<h1>Calm Zone 🌿</h1>
+<p>جایی برای آرامش تو 💙</p>
 
-<p>جایی برای آرام شدن ذهن و قلب تو 💙</p>
+<div id="text"></div>
 
-<div id="text" aria-live="polite"></div>
-
-<button onclick="startTyping()" aria-label="شروع آرامش">
-شروع آرامش ✨
-</button>
-
-<button onclick="toggleFont()" class="accessibility">
-بزرگ‌نمایی متن 🔍
-</button>
+<button onclick="startApp()">شروع آرامش ✨</button>
 
 </div>
 
 <script>
 const messages = [
-"آرام باش... دنیا هنوز قشنگی‌های زیادی داره 💙",
-"نفس عمیق بکش... تو امنی 🌿",
-"هیچ چیزی برای همیشه سخت نمی‌مونه...",
+"آرام باش... دنیا هنوز قشنگه 💙",
+"نفس عمیق بکش... همه چیز میگذره 🌿",
 "تو قوی‌تر از چیزی هستی که فکر می‌کنی ✨",
-"همه چیز کم‌کم درست میشه..."
+"همه چیز درست میشه..."
 ];
 
 let i = 0;
 let j = 0;
 
-function startTyping() {
+/* شروع */
+function startApp() {
   document.getElementById("text").innerHTML = "";
   i = 0;
   j = 0;
   type();
 }
 
+/* تایپ */
 function type() {
   if (i < messages.length) {
     if (j < messages[i].length) {
       document.getElementById("text").innerHTML += messages[i][j];
       j++;
-      setTimeout(type, 50);
+      setTimeout(type, 40);
     } else {
+      speak(messages[i]); // 👈 خواندن صدا
       i++;
       j = 0;
       document.getElementById("text").innerHTML += "<br><br>";
-      setTimeout(type, 800);
+      setTimeout(type, 1200);
     }
   }
 }
 
-/* بزرگ کردن متن برای کم‌بینا */
-let big = false;
-function toggleFont() {
-  if (!big) {
-    document.body.style.fontSize = "26px";
-    big = true;
-  } else {
-    document.body.style.fontSize = "20px";
-    big = false;
-  }
+/* 🎤 خواندن متن */
+function speak(text) {
+  const speech = new SpeechSynthesisUtterance(text);
+  speech.lang = "fa-IR"; // فارسی
+  speech.rate = 0.9;
+  speech.pitch = 1;
+
+  window.speechSynthesis.speak(speech);
 }
 
 /* Service Worker */
