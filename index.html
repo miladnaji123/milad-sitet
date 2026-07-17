@@ -6,27 +6,41 @@
 
     <style>
         body {
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            background: #222;
             color: white;
             text-align: center;
             font-family: Arial;
             margin-top: 100px;
         }
 
-        button {
-            background-color: #ff9800;
-            border: none;
-            padding: 15px 30px;
-            font-size: 18px;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: 0.3s;
-            margin: 10px;
+        h1 {
+            font-size: 40px;
+            animation: move 2s infinite alternate;
         }
 
-        button:hover {
-            background-color: #e68900;
-            transform: scale(1.1);
+        @keyframes move {
+            from { transform: translateX(-40px); }
+            to { transform: translateX(40px); }
+        }
+
+        #text {
+            font-size: 22px;
+            animation: blink 1s infinite;
+        }
+
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0.3; }
+            100% { opacity: 1; }
+        }
+
+        button {
+            padding: 12px 25px;
+            font-size: 16px;
+            border: none;
+            border-radius: 8px;
+            background: orange;
+            cursor: pointer;
         }
     </style>
 </head>
@@ -35,28 +49,13 @@
 
     <h1>به سایت من خوش اومدی 😎</h1>
 
-    <p id="text">اینجا قراره کلی چیز خفن بسازیم 😎</p>
+    <p id="text">یه سایت ساده ولی خفن 🔥</p>
 
-    <button onclick="start()">شروع 🚀</button>
-    <button onclick="playMusic()">🎵 پخش موزیک</button>
-    <button onclick="pauseMusic()">⏸ توقف موزیک</button>
-
-    <!-- موزیک -->
-    <audio id="music" loop>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
-    </audio>
+    <button onclick="start()">شروع</button>
 
     <script>
         function start() {
-            document.getElementById("text").innerText = "شروع کردیم 🚀🔥";
-        }
-
-        function playMusic() {
-            document.getElementById("music").play();
-        }
-
-        function pauseMusic() {
-            document.getElementById("music").pause();
+            document.getElementById("text").innerText = "شروع شد 🚀";
         }
     </script>
 
