@@ -2,7 +2,12 @@
 <html lang="fa">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Calm Zone 🌿</title>
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#87CEEB">
 
   <style>
     body {
@@ -28,7 +33,6 @@
 
     h1 {
       font-size: 40px;
-      margin-bottom: 10px;
     }
 
     #text {
@@ -46,11 +50,6 @@
       color: #333;
       font-size: 16px;
       cursor: pointer;
-      transition: 0.3s;
-    }
-
-    button:hover {
-      background: #eee;
     }
 
     .test {
@@ -71,15 +70,14 @@
 
     <button onclick="startTyping()">شروع آرامش ✨</button>
 
-    <!-- تست -->
-    <div class="test">TEST OK 999</div>
+    <div class="test">APP VERSION 1</div>
   </div>
 
   <script>
     const messages = [
       "همه چی درست میشه...",
       "نفس عمیق بکش...",
-      "تو قوی‌تری از چیزی که فکر می‌کنی 💙",
+      "تو قوی‌تری 💙",
       "آرامش همینجاست..."
     ];
 
@@ -95,4 +93,24 @@
 
     function type() {
       if (i < messages.length) {
-        if (j <
+        if (j < messages[i].length) {
+          document.getElementById("text").innerHTML += messages[i].charAt(j);
+          j++;
+          setTimeout(type, 50);
+        } else {
+          i++;
+          j = 0;
+          document.getElementById("text").innerHTML += "<br>";
+          setTimeout(type, 800);
+        }
+      }
+    }
+
+    // Service Worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('sw.js');
+    }
+  </script>
+
+</body>
+</html>
