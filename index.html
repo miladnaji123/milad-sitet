@@ -45,11 +45,17 @@
 
     <p id="text">اینجا قراره کلی چیز خفن بسازیم 😎</p>
 
-    <button onclick="start()">شروع کنیم</button>
+    <button onclick="start()">شروع کنیم 🔊</button>
+
+    <!-- صدا -->
+    <audio id="sound" src="https://www.soundjay.com/button/sounds/button-3.mp3"></audio>
 
     <script>
         function start() {
             document.getElementById("text").innerText = "شروع کردیم 🚀🔥";
+
+            // پخش صدا
+            document.getElementById("sound").play();
         }
     </script>
 
