@@ -68,7 +68,6 @@ button {
 </div>
 
 <script>
-
 const messages = [
 "آرام باش... دنیا هنوز قشنگه 💙",
 "نفس عمیق بکش... همه چیز میگذره 🌿",
@@ -84,10 +83,6 @@ function startApp() {
   document.getElementById("text").innerHTML = "";
   i = 0;
   j = 0;
-
-  // فعال شدن صدا (مهم برای موبایل)
-  speechSynthesis.cancel();
-
   type();
 }
 
@@ -99,45 +94,44 @@ function type() {
       j++;
       setTimeout(type, 40);
     } else {
-      speak(messages[i]); // صدا
+      speak(messages[i]);
       i++;
       j = 0;
       document.getElementById("text").innerHTML += "<br><br>";
-      setTimeout(type, 1800); // مکث بیشتر برای کامل خواندن
+      setTimeout(type, 1200);
     }
   }
 }
 
-/* 🔊 خواندن متن (نسخه درست شده) */
+/* 🎤 خواندن متن با انتخاب صدا */
 function speak(text) {
-
-  // قطع صداهای قبلی
-  window.speechSynthesis.cancel();
-
   const speech = new SpeechSynthesisUtterance(text);
 
-  speech.rate = 0.85;
-  speech.pitch = 1;
+  let voices = window.speechSynthesis.getVoices();
 
-  const voices = speechSynthesis.getVoices();
-
-  // پیدا کردن صدای فارسی
-  const faVoice = voices.find(v => v.lang.includes("fa"));
+  let faVoice = voices.find(v => v.lang.includes("fa"));
 
   if (faVoice) {
     speech.voice = faVoice;
-  } else {
-    speech.lang = "en-US"; // fallback
   }
 
+  speech.lang = "fa-IR";
+  speech.rate = 0.9;
+  speech.pitch = 1;
+
+  window.speechSynthesis.cancel();
   window.speechSynthesis.speak(speech);
 }
+
+/* لود شدن صداها */
+window.speechSynthesis.onvoiceschanged = () => {
+  window.speechSynthesis.getVoices();
+};
 
 /* Service Worker */
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('service-worker.js');
 }
-
 </script>
 
 </body>
