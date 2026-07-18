@@ -1,10 +1,23 @@
-function speak(text) {
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <title>تست صدا</title>
+</head>
+<body>
 
+<h2>تست تبدیل متن به صدا</h2>
+
+<input type="text" id="text" placeholder="متن رو بنویس">
+<button onclick="speak()">پخش صدا</button>
+
+<script>
+function speak() {
+  const text = document.getElementById("text").value;
   const speech = new SpeechSynthesisUtterance(text);
 
   function loadVoiceAndSpeak() {
     let voices = speechSynthesis.getVoices();
-
     let faVoice = voices.find(v => v.lang === "fa-IR");
 
     if (faVoice) {
@@ -29,3 +42,7 @@ function speak(text) {
     loadVoiceAndSpeak();
   }
 }
+</script>
+
+</body>
+</html>
