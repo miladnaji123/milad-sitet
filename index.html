@@ -1,21 +1,43 @@
-<!DOCTYPE html>
-<html lang="fa">
-<head>
-  <meta charset="UTF-8">
-  <title>تست صدا</title>
-</head>
-<body style="background:black; color:white; text-align:center; margin-top:100px;">
+<script>
+function speak(text) {
+  const speech = new SpeechSynthesisUtterance(text);
 
-  <h1>تست تبدیل متن به صدا</h1>
+  function loadVoiceAndSpeak() {
+    let voices = speechSynthesis.getVoices();
 
-  <input id="text" type="text" placeholder="متن بنویس..." style="padding:10px; width:250px;">
-  <br><br>
-  <button onclick="speakText()" style="padding:10px 20px;">پخش صدا</button>
+    let faVoice = voices.find(v => v.lang && v.lang.toLowerCase().includes("fa"));
 
-  <script>
-    function speak(text) {
-      const speech = new SpeechSynthesisUtterance(text);
+    if (faVoice) {
+      speech.voice = faVoice;
+      speech.lang = "fa-IR";
+    } else {
+      let enVoice = voices.find(v => v.lang && v.lang.toLowerCase().includes("en"));
+      if (enVoice) {
+        speech.voice = enVoice;
+        speech.lang = "en-US";
+      }
+    }
 
-      function loadVoiceAndSpeak() {
-        let voices = speechSynthesis.getVoices();
-        console.log(
+    speech.rate = 0.9;
+    speech.pitch = 1;
+
+    speechSynthesis.cancel();
+    speechSynthesis.speak(speech);
+  }
+
+  if (speechSynthesis.getVoices().length === 0) {
+    speechSynthesis.onvoiceschanged = loadVoiceAndSpeak;
+  } else {
+    loadVoiceAndSpeak();
+  }
+}
+
+function speakText() {
+  let text = document.getElementById("text").value;
+  if (text.trim() !== "") {
+    speak(text);
+  } else {
+    alert("یه متن بنویس");
+  }
+}
+</script>
