@@ -68,6 +68,7 @@ button {
 </div>
 
 <script>
+
 const messages = [
 "آرام باش... دنیا هنوز قشنگه 💙",
 "نفس عمیق بکش... همه چیز میگذره 🌿",
@@ -83,6 +84,10 @@ function startApp() {
   document.getElementById("text").innerHTML = "";
   i = 0;
   j = 0;
+
+  // فعال شدن صدا (مهم برای موبایل)
+  speechSynthesis.cancel();
+
   type();
 }
 
@@ -94,21 +99,36 @@ function type() {
       j++;
       setTimeout(type, 40);
     } else {
-      speak(messages[i]); // 👈 خواندن صدا
+      speak(messages[i]); // صدا
       i++;
       j = 0;
       document.getElementById("text").innerHTML += "<br><br>";
-      setTimeout(type, 1200);
+      setTimeout(type, 1800); // مکث بیشتر برای کامل خواندن
     }
   }
 }
 
-/* 🎤 خواندن متن */
+/* 🔊 خواندن متن (نسخه درست شده) */
 function speak(text) {
+
+  // قطع صداهای قبلی
+  window.speechSynthesis.cancel();
+
   const speech = new SpeechSynthesisUtterance(text);
-  speech.lang = "fa-IR"; // فارسی
-  speech.rate = 0.9;
+
+  speech.rate = 0.85;
   speech.pitch = 1;
+
+  const voices = speechSynthesis.getVoices();
+
+  // پیدا کردن صدای فارسی
+  const faVoice = voices.find(v => v.lang.includes("fa"));
+
+  if (faVoice) {
+    speech.voice = faVoice;
+  } else {
+    speech.lang = "en-US"; // fallback
+  }
 
   window.speechSynthesis.speak(speech);
 }
@@ -117,6 +137,7 @@ function speak(text) {
 if ('serviceWorker' in navigator) {
   navigator.serviceWorker.register('service-worker.js');
 }
+
 </script>
 
 </body>
