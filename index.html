@@ -1,28 +1,78 @@
-function speak(text) {
-  const speech = new SpeechSynthesisUtterance(text);
+<script>
+const messages = [
+"آرام باش... دنیا هنوز قشنگه 💙",
+"نفس عمیق بکش... همه چیز میگذره 🌿",
+"تو قوی‌تر از چیزی هستی که فکر می‌کنی ✨",
+"همه چیز درست میشه..."
+];
 
-  function loadVoiceAndSpeak() {
-    let voices = speechSynthesis.getVoices();
+let i = 0;
+let j = 0;
 
-    let faVoice = voices.find(v => v.lang.includes("fa"));
+/* شروع */
+function startApp() {
+  document.getElementById("text").innerHTML = "";
+  i = 0;
+  j = 0;
 
-    if (faVoice) {
-      speech.voice = faVoice;
-      speech.lang = "fa-IR";
+  // مهم: فعال کردن صدا با کلیک کاربر
+  speechSynthesis.resume();
+
+  type();
+}
+
+/* تایپ */
+function type() {
+  if (i < messages.length) {
+    if (j < messages[i].length) {
+      document.getElementById("text").innerHTML += messages[i][j];
+      j++;
+      setTimeout(type, 40);
     } else {
-      speech.lang = "en-US";
+      speak(messages[i]);
+      i++;
+      j = 0;
+      document.getElementById("text").innerHTML += "<br><br>";
+      setTimeout(type, 1500);
     }
-
-    speech.rate = 0.9;
-    speech.pitch = 1;
-
-    speechSynthesis.cancel();
-    speechSynthesis.speak(speech);
-  }
-
-  if (speechSynthesis.getVoices().length === 0) {
-    speechSynthesis.onvoiceschanged = loadVoiceAndSpeak;
-  } else {
-    loadVoiceAndSpeak();
   }
 }
+
+/* 🎤 خواندن متن */
+function speak(text) {
+  if (!('speechSynthesis' in window)) {
+    alert("مرورگر شما از صدا پشتیبانی نمی‌کند");
+    return;
+  }
+
+  const speech = new SpeechSynthesisUtterance(text);
+
+  let voices = speechSynthesis.getVoices();
+
+  // پیدا کردن صدای فارسی
+  let faVoice = voices.find(v => v.lang.includes("fa"));
+
+  if (faVoice) {
+    speech.voice = faVoice;
+    speech.lang = "fa-IR";
+  } else {
+    speech.lang = "en-US";
+  }
+
+  speech.rate = 0.9;
+  speech.pitch = 1;
+
+  speechSynthesis.cancel();
+  speechSynthesis.speak(speech);
+}
+
+/* لود صداها */
+speechSynthesis.onvoiceschanged = () => {
+  speechSynthesis.getVoices();
+};
+
+/* Service Worker */
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('service-worker.js');
+}
+    </script>
