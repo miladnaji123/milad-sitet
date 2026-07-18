@@ -1,24 +1,34 @@
 function speak(text) {
+
   const speech = new SpeechSynthesisUtterance(text);
 
-  let voices = window.speechSynthesis.getVoices();
+  function loadVoiceAndSpeak() {
+    let voices = speechSynthesis.getVoices();
 
-  // لیست صداها رو چاپ کن (برای تست)
-  console.log(voices);
+    console.log(voices); // برای تست
 
-  // اول فارسی
-  let faVoice = voices.find(v => v.lang.includes("fa"));
+    let faVoice = voices.find(v => v.lang === "fa-IR");
 
-  // اگر فارسی نبود، انگلیسی خوب انتخاب کن
-  let enVoice = voices.find(v => v.lang.includes("en"));
+    if (faVoice) {
+      speech.voice = faVoice;
+      speech.lang = "fa-IR";
+    } else {
+      let enVoice = voices.find(v => v.lang.includes("en"));
+      speech.voice = enVoice;
+      speech.lang = "en-US";
+    }
 
-  speech.voice = faVoice || enVoice;
+    speech.rate = 0.9;
+    speech.pitch = 1;
 
-  speech.lang = faVoice ? "fa-IR" : "en-US";
+    speechSynthesis.cancel();
+    speechSynthesis.speak(speech);
+  }
 
-  speech.rate = 0.9;
-  speech.pitch = 1;
-
-  window.speechSynthesis.cancel();
-  window.speechSynthesis.speak(speech);
+  // اگر هنوز صداها آماده نبودن
+  if (speechSynthesis.getVoices().length === 0) {
+    speechSynthesis.onvoiceschanged = loadVoiceAndSpeak;
+  } else {
+    loadVoiceAndSpeak();
+  }
 }
