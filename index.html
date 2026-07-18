@@ -1,21 +1,24 @@
 function speak(text) {
-
   const speech = new SpeechSynthesisUtterance(text);
 
   function loadVoiceAndSpeak() {
     let voices = speechSynthesis.getVoices();
 
-    console.log(voices); // برای تست
+    console.log(voices);
 
-    let faVoice = voices.find(v => v.lang === "fa-IR");
+    // پیدا کردن صدای فارسی
+    let faVoice = voices.find(v => v.lang && v.lang.toLowerCase().includes("fa"));
 
     if (faVoice) {
       speech.voice = faVoice;
       speech.lang = "fa-IR";
     } else {
-      let enVoice = voices.find(v => v.lang.includes("en"));
-      speech.voice = enVoice;
-      speech.lang = "en-US";
+      // اگر فارسی نبود، انگلیسی
+      let enVoice = voices.find(v => v.lang && v.lang.toLowerCase().includes("en"));
+      if (enVoice) {
+        speech.voice = enVoice;
+        speech.lang = "en-US";
+      }
     }
 
     speech.rate = 0.9;
@@ -25,7 +28,6 @@ function speak(text) {
     speechSynthesis.speak(speech);
   }
 
-  // اگر هنوز صداها آماده نبودن
   if (speechSynthesis.getVoices().length === 0) {
     speechSynthesis.onvoiceschanged = loadVoiceAndSpeak;
   } else {
