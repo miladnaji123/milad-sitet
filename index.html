@@ -1,26 +1,54 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+<meta charset="UTF-8">
+<title>آرامش ذهن</title>
+</head>
+<body style="text-align:center; font-family:tahoma; margin-top:50px;">
+
+<h2 id="text">نفس عمیق بکش... همه چیز درست میشه 🌿</h2>
+
+<button onclick="startRelax()">شروع آرامش</button>
+
 <script>
-function speak() {
-  const text = document.getElementById("text").value;
+function speak(text) {
+    const speech = new SpeechSynthesisUtterance(text);
 
-  const speech = new SpeechSynthesisUtterance(text);
+    function loadVoiceAndSpeak() {
+        let voices = speechSynthesis.getVoices();
+        let faVoice = voices.find(v => v.lang === "fa-IR");
 
-  let voices = speechSynthesis.getVoices();
+        if (faVoice) {
+            speech.voice = faVoice;
+            speech.lang = "fa-IR";
+        } else {
+            let enVoice = voices.find(v => v.lang.includes("en"));
+            speech.voice = enVoice;
+            speech.lang = "en-US";
+        }
 
-  // انتخاب بهترین صدا (فارسی یا طبیعی‌ترین)
-  let voice =
-    voices.find(v => v.lang === "fa-IR") ||
-    voices.find(v => v.lang.includes("en") && v.name.includes("Google")) ||
-    voices[0];
+        speech.rate = 0.9;
+        speech.pitch = 1;
 
-  speech.voice = voice;
-  speech.lang = voice.lang;
+        speechSynthesis.cancel();
+        speechSynthesis.speak(speech);
+    }
 
-  speech.rate = 0.85;
-  speech.pitch = 1;
+    if (speechSynthesis.getVoices().length === 0) {
+        speechSynthesis.onvoiceschanged = loadVoiceAndSpeak;
+    } else {
+        loadVoiceAndSpeak();
+    }
+}
 
-  speech.volume = 1;
+function startRelax() {
+    let message = "چشم‌هایت را ببند... نفس عمیق بکش... آرام باش... همه چیز درست می‌شود";
 
-  speechSynthesis.cancel();
-  speechSynthesis.speak(speech);
+    document.getElementById("text").innerText = message;
+
+    speak(message);
 }
 </script>
+
+</body>
+</html>
