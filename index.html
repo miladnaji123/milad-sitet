@@ -1,62 +1,54 @@
-<script>
-const messages = [
-"آرام باش... دنیا هنوز قشنگه 💙",
-"نفس عمیق بکش... همه چیز میگذره 🌿",
-"تو قوی‌تر از چیزی هستی که فکر می‌کنی ✨",
-"همه چیز درست میشه..."
-];
-
-let i = 0;
-let j = 0;
-
-/* شروع */
-function startApp() {
-  document.getElementById("text").innerHTML = "";
-  i = 0;
-  j = 0;
-
-  // مهم: فعال کردن صدا با کلیک کاربر
-  speechSynthesis.resume();
-
-  type();
-}
-
-/* تایپ */
-function type() {
-  if (i < messages.length) {
-    if (j < messages[i].length) {
-      document.getElementById("text").innerHTML += messages[i][j];
-      j++;
-      setTimeout(type, 40);
-    } else {
-      speak(messages[i]);
-      i++;
-      j = 0;
-      document.getElementById("text").innerHTML += "<br><br>";
-      setTimeout(type, 1500);
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <title>Calm Zone</title>
+  <style>
+    body {
+      background: #0f172a;
+      color: white;
+      text-align: center;
+      font-family: sans-serif;
+      padding-top: 100px;
     }
-  }
-}
 
-/* 🎤 خواندن متن */
+    h1 {
+      font-size: 40px;
+    }
+
+    p {
+      color: #94a3b8;
+    }
+
+    button {
+      margin-top: 30px;
+      padding: 15px 30px;
+      font-size: 18px;
+      border: none;
+      border-radius: 10px;
+      background: #22c55e;
+      color: white;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+<h1>Calm Zone 🌿</h1>
+<p>جایی برای آرامش تو 💙</p>
+
+<button onclick="startCalm()">شروع آرامش ✨</button>
+
+<script>
 function speak(text) {
-  if (!('speechSynthesis' in window)) {
-    alert("مرورگر شما از صدا پشتیبانی نمی‌کند");
-    return;
-  }
-
   const speech = new SpeechSynthesisUtterance(text);
 
   let voices = speechSynthesis.getVoices();
-
-  // پیدا کردن صدای فارسی
-  let faVoice = voices.find(v => v.lang.includes("fa"));
+  let faVoice = voices.find(v => v.lang === "fa-IR");
 
   if (faVoice) {
     speech.voice = faVoice;
     speech.lang = "fa-IR";
-  } else {
-    speech.lang = "en-US";
   }
 
   speech.rate = 0.9;
@@ -66,13 +58,10 @@ function speak(text) {
   speechSynthesis.speak(speech);
 }
 
-/* لود صداها */
-speechSynthesis.onvoiceschanged = () => {
-  speechSynthesis.getVoices();
-};
-
-/* Service Worker */
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('service-worker.js');
+function startCalm() {
+  speak("چشمانت را ببند... نفس عمیق بکش... تو در آرامش هستی");
 }
-    </script>
+</script>
+
+</body>
+</html>
