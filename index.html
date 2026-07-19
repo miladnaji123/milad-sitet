@@ -2,92 +2,101 @@
 <html lang="fa">
 <head>
   <meta charset="UTF-8">
-  <title>تبدیل متن به صدا</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calm Zone</title>
 
   <style>
     body {
-      font-family: Tahoma;
-      text-align: center;
-      background: #0f172a;
+      background: #0d1b2a;
       color: white;
+      text-align: center;
       padding: 50px;
-    }
-
-    h1 {
-      color: #38bdf8;
-    }
-
-    input {
-      width: 80%;
-      padding: 15px;
-      font-size: 18px;
-      border-radius: 10px;
-      border: none;
-      margin-top: 20px;
+      font-family: tahoma;
     }
 
     button {
-      margin-top: 20px;
       padding: 12px 25px;
       font-size: 18px;
-      border-radius: 10px;
       border: none;
-      background: #22c55e;
+      border-radius: 10px;
+      background: #1b263b;
       color: white;
       cursor: pointer;
+      margin-top: 20px;
     }
 
     button:hover {
-      background: #16a34a;
+      background: #415a77;
+    }
+
+    #text {
+      margin-top: 30px;
+      font-size: 20px;
+      line-height: 2;
     }
   </style>
 </head>
 
 <body>
 
-<h1>🔊 تبدیل متن به صدا</h1>
+<h1>Calm Zone 🌿</h1>
 
-<input type="text" id="text" placeholder="متن رو اینجا بنویس">
-<br>
-<button onclick="speak()">پخش صدا</button>
+<p id="text"></p>
+
+<button onclick="startApp()">شروع آرامش ✨</button>
 
 <script>
-function speak() {
-  const text = document.getElementById("text").value;
+const messages = [
+"آرام باش...",
+"نفس عمیق بکش",
+"همه چیز درست میشه",
+"تو قوی‌تر از چیزی هستی که فکر می‌کنی 💪"
+];
 
-  if (!text) {
-    alert("یه متن بنویس 😅");
-    return;
+let i = 0;
+let j = 0;
+
+function startApp() {
+  document.getElementById("text").innerHTML = "";
+  i = 0;
+  j = 0;
+  type();
+}
+
+function type() {
+  if (i < messages.length) {
+    if (j < messages[i].length) {
+      document.getElementById("text").innerHTML += messages[i][j];
+      j++;
+      setTimeout(type, 40);
+    } else {
+      speak(messages[i]);
+      i++;
+      j = 0;
+      document.getElementById("text").innerHTML += "<br>";
+      setTimeout(type, 1200);
+    }
   }
+}
 
+function speak(text) {
   const speech = new SpeechSynthesisUtterance(text);
 
-  function loadVoiceAndSpeak() {
-    let voices = speechSynthesis.getVoices();
+  let voices = speechSynthesis.getVoices();
+  let faVoice = voices.find(v => v.lang === "fa-IR");
 
-    let faVoice = voices.find(v => v.lang === "fa-IR");
-
-    if (faVoice) {
-      speech.voice = faVoice;
-      speech.lang = "fa-IR";
-    } else {
-      let enVoice = voices.find(v => v.lang.includes("en"));
-      speech.voice = enVoice;
-      speech.lang = "en-US";
-    }
-
-    speech.rate = 0.9;
-    speech.pitch = 1;
-
-    speechSynthesis.cancel();
-    speechSynthesis.speak(speech);
-  }
-
-  if (speechSynthesis.getVoices().length === 0) {
-    speechSynthesis.onvoiceschanged = loadVoiceAndSpeak;
+  if (faVoice) {
+    speech.voice = faVoice;
+    speech.lang = "fa-IR";
   } else {
-    loadVoiceAndSpeak();
+    speech.lang = "en-US";
   }
+
+  speech.rate = 0.9;
+  speech.pitch = 1;
+
+  speechSynthesis.cancel();
+  speechSynthesis.speak(speech);
 }
 </script>
 
