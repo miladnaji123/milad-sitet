@@ -2,60 +2,76 @@
 <html lang="fa">
 <head>
   <meta charset="UTF-8">
-  <title>Calm Zone</title>
+  <title>تبدیل متن به صدا</title>
+
   <style>
     body {
-      background: #111;
-      color: #fff;
+      font-family: Tahoma;
       text-align: center;
-      font-family: sans-serif;
-      padding-top: 100px;
+      background: #0f172a;
+      color: white;
+      padding: 50px;
     }
-    button {
-      padding: 15px 25px;
+
+    h1 {
+      color: #38bdf8;
+    }
+
+    input {
+      width: 80%;
+      padding: 15px;
       font-size: 18px;
-      border: none;
       border-radius: 10px;
-      background: #00c896;
+      border: none;
+      margin-top: 20px;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px 25px;
+      font-size: 18px;
+      border-radius: 10px;
+      border: none;
+      background: #22c55e;
       color: white;
       cursor: pointer;
     }
-    input {
-      padding: 10px;
-      width: 250px;
-      margin-bottom: 20px;
-      border-radius: 8px;
-      border: none;
+
+    button:hover {
+      background: #16a34a;
     }
   </style>
 </head>
+
 <body>
 
-<h1>Calm Zone 🌿</h1>
+<h1>🔊 تبدیل متن به صدا</h1>
 
-<input type="text" id="text" placeholder="متن فارسی بنویس">
-
-<br><br>
-
-<button onclick="speak()">شروع پخش 🔊</button>
+<input type="text" id="text" placeholder="متن رو اینجا بنویس">
+<br>
+<button onclick="speak()">پخش صدا</button>
 
 <script>
 function speak() {
   const text = document.getElementById("text").value;
+
+  if (!text) {
+    alert("یه متن بنویس 😅");
+    return;
+  }
+
   const speech = new SpeechSynthesisUtterance(text);
 
   function loadVoiceAndSpeak() {
     let voices = speechSynthesis.getVoices();
 
-    // پیدا کردن هر صدای فارسی
-    let faVoice = voices.find(v => v.lang.toLowerCase().includes("fa"));
+    let faVoice = voices.find(v => v.lang === "fa-IR");
 
     if (faVoice) {
       speech.voice = faVoice;
-      speech.lang = faVoice.lang;
+      speech.lang = "fa-IR";
     } else {
-      // اگر فارسی نبود، انگلیسی
-      let enVoice = voices.find(v => v.lang.toLowerCase().includes("en"));
+      let enVoice = voices.find(v => v.lang.includes("en"));
       speech.voice = enVoice;
       speech.lang = "en-US";
     }
