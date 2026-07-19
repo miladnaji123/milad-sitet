@@ -2,37 +2,39 @@
 <html lang="fa">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Calm Zone</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="manifest" href="manifest.json">
 
   <style>
     body {
-      background: #0d1b2a;
+      background: #0f172a;
       color: white;
+      font-family: sans-serif;
       text-align: center;
       padding: 50px;
-      font-family: tahoma;
     }
 
     button {
-      padding: 12px 25px;
+      padding: 15px 25px;
       font-size: 18px;
       border: none;
       border-radius: 10px;
-      background: #1b263b;
+      background: #22c55e;
       color: white;
-      cursor: pointer;
+    }
+
+    input {
+      padding: 10px;
+      width: 80%;
+      margin: 20px;
+    }
+
+    #status {
       margin-top: 20px;
-    }
-
-    button:hover {
-      background: #415a77;
-    }
-
-    #text {
-      margin-top: 30px;
-      font-size: 20px;
-      line-height: 2;
+      font-size: 14px;
+      color: #94a3b8;
     }
   </style>
 </head>
@@ -41,45 +43,17 @@
 
 <h1>Calm Zone 🌿</h1>
 
-<p id="text"></p>
+<input type="text" id="text" placeholder="متن بنویس...">
 
-<button onclick="startApp()">شروع آرامش ✨</button>
+<br>
+
+<button onclick="speak()">پخش صدا 🔊</button>
+
+<div id="status"></div>
 
 <script>
-const messages = [
-"آرام باش...",
-"نفس عمیق بکش",
-"همه چیز درست میشه",
-"تو قوی‌تر از چیزی هستی که فکر می‌کنی 💪"
-];
-
-let i = 0;
-let j = 0;
-
-function startApp() {
-  document.getElementById("text").innerHTML = "";
-  i = 0;
-  j = 0;
-  type();
-}
-
-function type() {
-  if (i < messages.length) {
-    if (j < messages[i].length) {
-      document.getElementById("text").innerHTML += messages[i][j];
-      j++;
-      setTimeout(type, 40);
-    } else {
-      speak(messages[i]);
-      i++;
-      j = 0;
-      document.getElementById("text").innerHTML += "<br>";
-      setTimeout(type, 1200);
-    }
-  }
-}
-
-function speak(text) {
+function speak() {
+  const text = document.getElementById("text").value;
   const speech = new SpeechSynthesisUtterance(text);
 
   let voices = speechSynthesis.getVoices();
@@ -98,7 +72,15 @@ function speak(text) {
   speechSynthesis.cancel();
   speechSynthesis.speak(speech);
 }
-</script>
 
-</body>
-</html>
+// وضعیت اینترنت
+function updateStatus() {
+  const status = document.getElementById("status");
+  if (navigator.onLine) {
+    status.innerText = "🌐 آنلاین هستی";
+  } else {
+    status.innerText = "📴 آفلاین هستی (ولی اپ کار می‌کنه)";
+  }
+}
+
+window.addEventListener("online
