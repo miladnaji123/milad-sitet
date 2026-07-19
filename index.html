@@ -4,10 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Calm Zone 🌿</title>
-
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#0d1b2a">
+<title>Calm Zone AI 🌿</title>
 
 <style>
 body {
@@ -22,69 +19,28 @@ body {
   text-align: center;
 }
 
-/* کارت */
 .container {
   background: rgba(255,255,255,0.05);
-  padding: 35px;
+  padding: 30px;
   border-radius: 20px;
-  backdrop-filter: blur(15px);
   max-width: 350px;
-  box-shadow: 0 0 25px rgba(0,0,0,0.3);
-  animation: fadeIn 1.2s ease;
 }
 
-@keyframes fadeIn {
-  from {opacity: 0; transform: translateY(20px);}
-  to {opacity: 1;}
+button {
+  margin: 10px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 10px;
+  background: #fff;
+  color: #0d1b2a;
+  font-size: 16px;
+  cursor: pointer;
 }
 
-h1 {
-  font-size: 34px;
-}
-
-/* متن */
 #text {
   margin-top: 20px;
   min-height: 60px;
   line-height: 1.8;
-  font-size: 20px;
-}
-
-/* دکمه‌ها */
-button {
-  margin-top: 15px;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 12px;
-  font-size: 16px;
-  cursor: pointer;
-  transition: 0.3s;
-}
-
-.start {
-  background: #ffffff;
-  color: #0d1b2a;
-}
-
-.stop {
-  background: #ff4d4d;
-  color: white;
-}
-
-button:hover {
-  transform: scale(1.05);
-}
-
-/* قلب */
-.heart {
-  position: absolute;
-  font-size: 20px;
-  animation: float 4s linear infinite;
-}
-
-@keyframes float {
-  from {transform: translateY(0);}
-  to {transform: translateY(-100vh);}
 }
 </style>
 </head>
@@ -92,60 +48,94 @@ button:hover {
 <body>
 
 <div class="container">
-  <h1>Calm Zone 🌿</h1>
-  <p>جایی برای آرامش تو 💙</p>
+  <h1>Calm Zone AI 🌿</h1>
+  <p>با من حرف بزن... من آرومت می‌کنم 💙</p>
 
   <div id="text"></div>
 
-  <button class="start" onclick="startApp()">شروع ✨</button>
-  <button class="stop" onclick="stopApp()">توقف ⛔</button>
+  <button onclick="generate()">✨ تولید جمله</button>
+  <button onclick="startListening()">🎤 حرف بزن</button>
 </div>
 
 <script>
-const messages = [
-"آرام باش... دنیا هنوز قشنگه 💙",
-"نفس عمیق بکش... همه چیز میگذره 🌿",
-"تو قوی‌تر از چیزی هستی که فکر می‌کنی ✨",
-"به خودت ایمان داشته باش 💫",
-"همه چیز درست میشه 🌈"
-];
 
-let i = 0;
-let j = 0;
-let isRunning = false;
+// ✨ جملات هوشمند ساده
+function generate() {
+  const prompts = [
+    "یه جمله آرامش‌بخش بگو",
+    "یه پیام انگیزشی کوتاه",
+    "چطور استرس کم کنم"
+  ];
 
-/* شروع */
-function startApp() {
-  document.getElementById("text").innerHTML = "";
-  i = 0;
-  j = 0;
-  isRunning = true;
-  type();
+  const random = prompts[Math.floor(Math.random() * prompts.length)];
+
+  const responses = [
+    "نفس عمیق بکش... همه چیز درست میشه 🌿",
+    "تو از پسش برمیای 💙",
+    "آرامش از درونت شروع میشه ✨"
+  ];
+
+  const text = responses[Math.floor(Math.random() * responses.length)];
+
+  showText(text);
+  speak(text);
 }
 
-/* توقف */
-function stopApp() {
-  isRunning = false;
-  speechSynthesis.cancel();
+// 🧠 نمایش متن
+function showText(text) {
+  document.getElementById("text").innerText = text;
 }
 
-/* تایپ */
-function type() {
-  if (!isRunning) return;
+// 🎤 تبدیل متن به صدا
+function speak(text) {
+  const speech = new SpeechSynthesisUtterance(text);
 
-  if (i < messages.length) {
-    if (j < messages[i].length) {
-      document.getElementById("text").innerHTML += messages[i][j];
-      j++;
-      setTimeout(type, 40);
+  function loadVoice() {
+    let voices = speechSynthesis.getVoices();
+    let fa = voices.find(v => v.lang === "fa-IR");
+
+    if (fa) {
+      speech.voice = fa;
+      speech.lang = "fa-IR";
     } else {
-      speak(messages[i]);
-      i++;
-      j = 0;
-      document.getElementById("text").innerHTML += "<br><br>";
-      setTimeout(type, 1200);
+      speech.lang = "en-US";
     }
+
+    speech.rate = 0.9;
+    speechSynthesis.speak(speech);
+  }
+
+  if (speechSynthesis.getVoices().length === 0) {
+    speechSynthesis.onvoiceschanged = loadVoice;
+  } else {
+    loadVoice();
   }
 }
 
-/* 🎤 ص
+// 🎙️ تشخیص صدا
+function startListening() {
+  const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+
+  recognition.lang = "fa-IR";
+  recognition.start();
+
+  recognition.onresult = function(event) {
+    const userText = event.results[0][0].transcript;
+
+    let answer = "حرفت رو شنیدم 💙";
+
+    if (userText.includes("استرس")) {
+      answer = "چند نفس عمیق بکش 🌿";
+    } else if (userText.includes("ناراحتم")) {
+      answer = "می‌فهممت... همه چیز میگذره 💙";
+    }
+
+    showText(answer);
+    speak(answer);
+  }
+}
+
+</script>
+
+</body>
+</html>
