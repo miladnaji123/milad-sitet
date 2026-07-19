@@ -1,128 +1,130 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="fa">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Calm Zone</title>
+<title>اپ متن و صدا</title>
 
 <style>
 body {
-  margin: 0;
   font-family: sans-serif;
-  background: linear-gradient(135deg,#0f2027,#203a43,#2c5364);
-  color: white;
-}
-
-header {
   text-align: center;
-  padding: 50px 20px;
+  background: #0f172a;
+  color: white;
+  padding: 30px;
 }
 
 h1 {
-  font-size: 48px;
+  margin-bottom: 30px;
 }
 
-p {
-  opacity: 0.8;
-}
-
-.btn {
-  background: #4CAF50;
+button {
+  margin: 10px;
+  padding: 12px 20px;
   border: none;
-  padding: 15px 25px;
   border-radius: 10px;
+  background: #22c55e;
   color: white;
-  font-size: 18px;
+  font-size: 16px;
   cursor: pointer;
 }
 
-.section {
-  padding: 40px;
+button:hover {
+  background: #16a34a;
 }
 
-.cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
-  gap: 20px;
-}
-
-.card {
-  background: rgba(255,255,255,0.05);
+#textBox {
+  margin-top: 30px;
+  font-size: 18px;
+  background: #1e293b;
   padding: 20px;
-  border-radius: 15px;
-  text-align: center;
-  transition: 0.3s;
-}
-
-.card:hover {
-  transform: scale(1.05);
-}
-
-.persons {
-  display: flex;
-  gap: 15px;
-  overflow-x: auto;
-}
-
-.person {
-  min-width: 150px;
-  background: rgba(255,255,255,0.05);
-  padding: 10px;
-  border-radius: 10px;
-  text-align: center;
-}
-
-.person img {
-  width: 100%;
   border-radius: 10px;
 }
 </style>
-</head>
 
+</head>
 <body>
 
-<header>
-  <h1>🌿 Calm Zone</h1>
-  <p>الهام بگیر، یاد بگیر، رشد کن</p>
-  <button class="btn" onclick="start()">شروع سفر ✨</button>
-</header>
+<h1>🎧 متن‌های جذاب با صدا</h1>
 
-<section class="section">
-  <h2>دسته‌بندی‌ها</h2>
-  <div class="cards">
-    <div class="card">📚 زندگینامه</div>
-    <div class="card">🎧 پادکست</div>
-    <div class="card">🎥 ویدیو</div>
-    <div class="card">📸 اینستاگرام</div>
-  </div>
-</section>
+<button onclick="playCategory('calm')">🌿 آرامش</button>
+<button onclick="playCategory('motivation')">💪 انگیزشی</button>
+<button onclick="playCategory('bio')">📖 زندگی‌نامه</button>
+<button onclick="playCategory('love')">❤️ احساسی</button>
 
-<section class="section">
-  <h2>افراد معروف</h2>
-  <div class="persons">
-    <div class="person">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/d/d4/N.Tesla.JPG">
-      <p>نیکولا تسلا</p>
-    </div>
-    <div class="person">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/d/d3/Albert_Einstein_Head.jpg">
-      <p>آلبرت انیشتین</p>
-    </div>
-    <div class="person">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/e/e5/Steve_Jobs_Headshot_2010-CROP.jpg">
-      <p>استیو جابز</p>
-    </div>
-    <div class="person">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/0/0d/Nelson_Mandela_1994.jpg">
-      <p>نلسون ماندلا</p>
-    </div>
-  </div>
-</section>
+<div id="textBox">روی یکی از دکمه‌ها بزن 👆</div>
 
 <script>
-function start(){
-  alert("به Calm Zone خوش آمدی 🌿");
+
+const categories = {
+
+  calm: [
+    "نفس بکش… همه چیز درست می‌شود.",
+    "آرامش از درون تو شروع می‌شود.",
+    "ذهن آرام، زندگی زیبا می‌سازد."
+  ],
+
+  motivation: [
+    "تو قوی‌تر از چیزی هستی که فکر می‌کنی.",
+    "شروع کن، حتی اگر کامل نیستی.",
+    "هیچ موفقیتی بدون تلاش به دست نمی‌آید."
+  ],
+
+  bio: [
+    "استیو جابز از یک گاراژ شروع کرد و دنیا را تغییر داد.",
+    "ایلان ماسک بارها شکست خورد اما تسلیم نشد.",
+    "هر انسان موفقی، یک روز از صفر شروع کرده است."
+  ],
+
+  love: [
+    "گاهی سکوت، زیباتر از هزار کلمه است.",
+    "دل آرام، زندگی آرام می‌سازد.",
+    "لبخند تو می‌تواند دنیا را تغییر دهد."
+  ]
+
+};
+
+function playCategory(type) {
+
+  const list = categories[type];
+  const text = list[Math.floor(Math.random() * list.length)];
+
+  document.getElementById("textBox").innerText = text;
+
+  speak(text);
 }
+
+function speak(text) {
+
+  const speech = new SpeechSynthesisUtterance(text);
+
+  function loadVoiceAndSpeak() {
+
+    let voices = speechSynthesis.getVoices();
+    let faVoice = voices.find(v => v.lang === "fa-IR");
+
+    if (faVoice) {
+      speech.voice = faVoice;
+      speech.lang = "fa-IR";
+    } else {
+      let enVoice = voices.find(v => v.lang.includes("en"));
+      speech.voice = enVoice;
+      speech.lang = "en-US";
+    }
+
+    speech.rate = 0.9;
+    speech.pitch = 1;
+
+    speechSynthesis.cancel();
+    speechSynthesis.speak(speech);
+  }
+
+  if (speechSynthesis.getVoices().length === 0) {
+    speechSynthesis.onvoiceschanged = loadVoiceAndSpeak;
+  } else {
+    loadVoiceAndSpeak();
+  }
+}
+
 </script>
 
 </body>
