@@ -1,140 +1,78 @@
 <!DOCTYPE html>
 <html lang="fa">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Calm Zone AI 🌿</title>
-
-<style>
-body {
-  margin: 0;
-  font-family: Tahoma;
-  background: linear-gradient(135deg, #0d1b2a, #1b263b);
-  color: #fff;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  text-align: center;
-}
-
-.container {
-  background: rgba(255,255,255,0.05);
-  padding: 30px;
-  border-radius: 20px;
-  max-width: 350px;
-}
-
-button {
-  margin: 10px;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 10px;
-  background: #fff;
-  color: #0d1b2a;
-  font-size: 16px;
-  cursor: pointer;
-}
-
-#text {
-  margin-top: 20px;
-  min-height: 60px;
-  line-height: 1.8;
-}
-</style>
+  <meta charset="UTF-8">
+  <title>Calm Zone</title>
+  <style>
+    body {
+      background: #111;
+      color: #fff;
+      text-align: center;
+      font-family: sans-serif;
+      padding-top: 100px;
+    }
+    button {
+      padding: 15px 25px;
+      font-size: 18px;
+      border: none;
+      border-radius: 10px;
+      background: #00c896;
+      color: white;
+      cursor: pointer;
+    }
+    input {
+      padding: 10px;
+      width: 250px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      border: none;
+    }
+  </style>
 </head>
-
 <body>
 
-<div class="container">
-  <h1>Calm Zone AI 🌿</h1>
-  <p>با من حرف بزن... من آرومت می‌کنم 💙</p>
+<h1>Calm Zone 🌿</h1>
 
-  <div id="text"></div>
+<input type="text" id="text" placeholder="متن فارسی بنویس">
 
-  <button onclick="generate()">✨ تولید جمله</button>
-  <button onclick="startListening()">🎤 حرف بزن</button>
-</div>
+<br><br>
+
+<button onclick="speak()">شروع پخش 🔊</button>
 
 <script>
-
-// ✨ جملات هوشمند ساده
-function generate() {
-  const prompts = [
-    "یه جمله آرامش‌بخش بگو",
-    "یه پیام انگیزشی کوتاه",
-    "چطور استرس کم کنم"
-  ];
-
-  const random = prompts[Math.floor(Math.random() * prompts.length)];
-
-  const responses = [
-    "نفس عمیق بکش... همه چیز درست میشه 🌿",
-    "تو از پسش برمیای 💙",
-    "آرامش از درونت شروع میشه ✨"
-  ];
-
-  const text = responses[Math.floor(Math.random() * responses.length)];
-
-  showText(text);
-  speak(text);
-}
-
-// 🧠 نمایش متن
-function showText(text) {
-  document.getElementById("text").innerText = text;
-}
-
-// 🎤 تبدیل متن به صدا
-function speak(text) {
+function speak() {
+  const text = document.getElementById("text").value;
   const speech = new SpeechSynthesisUtterance(text);
 
-  function loadVoice() {
+  function loadVoiceAndSpeak() {
     let voices = speechSynthesis.getVoices();
-    let fa = voices.find(v => v.lang === "fa-IR");
 
-    if (fa) {
-      speech.voice = fa;
-      speech.lang = "fa-IR";
+    // پیدا کردن هر صدای فارسی
+    let faVoice = voices.find(v => v.lang.toLowerCase().includes("fa"));
+
+    if (faVoice) {
+      speech.voice = faVoice;
+      speech.lang = faVoice.lang;
     } else {
+      // اگر فارسی نبود، انگلیسی
+      let enVoice = voices.find(v => v.lang.toLowerCase().includes("en"));
+      speech.voice = enVoice;
       speech.lang = "en-US";
     }
 
     speech.rate = 0.9;
+    speech.pitch = 1;
+
+    speechSynthesis.cancel();
     speechSynthesis.speak(speech);
   }
 
   if (speechSynthesis.getVoices().length === 0) {
-    speechSynthesis.onvoiceschanged = loadVoice;
+    speechSynthesis.onvoiceschanged = loadVoiceAndSpeak;
   } else {
-    loadVoice();
+    loadVoiceAndSpeak();
   }
 }
-
-// 🎙️ تشخیص صدا
-function startListening() {
-  const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
-
-  recognition.lang = "fa-IR";
-  recognition.start();
-
-  recognition.onresult = function(event) {
-    const userText = event.results[0][0].transcript;
-
-    let answer = "حرفت رو شنیدم 💙";
-
-    if (userText.includes("استرس")) {
-      answer = "چند نفس عمیق بکش 🌿";
-    } else if (userText.includes("ناراحتم")) {
-      answer = "می‌فهممت... همه چیز میگذره 💙";
-    }
-
-    showText(answer);
-    speak(answer);
-  }
-}
-
 </script>
 
 </body>
