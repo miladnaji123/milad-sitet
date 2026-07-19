@@ -1,67 +1,151 @@
 <!DOCTYPE html>
 <html lang="fa">
 <head>
-  <meta charset="UTF-8">
-  <title>Calm Zone</title>
-  <style>
-    body {
-      background: #0f172a;
-      color: white;
-      text-align: center;
-      font-family: sans-serif;
-      padding-top: 100px;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    h1 {
-      font-size: 40px;
-    }
+<title>Calm Zone 🌿</title>
 
-    p {
-      color: #94a3b8;
-    }
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#0d1b2a">
 
-    button {
-      margin-top: 30px;
-      padding: 15px 30px;
-      font-size: 18px;
-      border: none;
-      border-radius: 10px;
-      background: #22c55e;
-      color: white;
-      cursor: pointer;
-    }
-  </style>
+<style>
+body {
+  margin: 0;
+  font-family: Tahoma;
+  background: linear-gradient(135deg, #0d1b2a, #1b263b);
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+}
+
+/* کارت */
+.container {
+  background: rgba(255,255,255,0.05);
+  padding: 35px;
+  border-radius: 20px;
+  backdrop-filter: blur(15px);
+  max-width: 350px;
+  box-shadow: 0 0 25px rgba(0,0,0,0.3);
+  animation: fadeIn 1.2s ease;
+}
+
+@keyframes fadeIn {
+  from {opacity: 0; transform: translateY(20px);}
+  to {opacity: 1;}
+}
+
+h1 {
+  font-size: 34px;
+}
+
+/* متن */
+#text {
+  margin-top: 20px;
+  min-height: 60px;
+  line-height: 1.8;
+  font-size: 20px;
+}
+
+/* دکمه‌ها */
+button {
+  margin-top: 15px;
+  padding: 12px 20px;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.start {
+  background: #ffffff;
+  color: #0d1b2a;
+}
+
+.stop {
+  background: #ff4d4d;
+  color: white;
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+
+/* قلب */
+.heart {
+  position: absolute;
+  font-size: 20px;
+  animation: float 4s linear infinite;
+}
+
+@keyframes float {
+  from {transform: translateY(0);}
+  to {transform: translateY(-100vh);}
+}
+</style>
 </head>
+
 <body>
 
-<h1>Calm Zone 🌿</h1>
-<p>جایی برای آرامش تو 💙</p>
+<div class="container">
+  <h1>Calm Zone 🌿</h1>
+  <p>جایی برای آرامش تو 💙</p>
 
-<button onclick="startCalm()">شروع آرامش ✨</button>
+  <div id="text"></div>
+
+  <button class="start" onclick="startApp()">شروع ✨</button>
+  <button class="stop" onclick="stopApp()">توقف ⛔</button>
+</div>
 
 <script>
-function speak(text) {
-  const speech = new SpeechSynthesisUtterance(text);
+const messages = [
+"آرام باش... دنیا هنوز قشنگه 💙",
+"نفس عمیق بکش... همه چیز میگذره 🌿",
+"تو قوی‌تر از چیزی هستی که فکر می‌کنی ✨",
+"به خودت ایمان داشته باش 💫",
+"همه چیز درست میشه 🌈"
+];
 
-  let voices = speechSynthesis.getVoices();
-  let faVoice = voices.find(v => v.lang === "fa-IR");
+let i = 0;
+let j = 0;
+let isRunning = false;
 
-  if (faVoice) {
-    speech.voice = faVoice;
-    speech.lang = "fa-IR";
-  }
+/* شروع */
+function startApp() {
+  document.getElementById("text").innerHTML = "";
+  i = 0;
+  j = 0;
+  isRunning = true;
+  type();
+}
 
-  speech.rate = 0.9;
-  speech.pitch = 1;
-
+/* توقف */
+function stopApp() {
+  isRunning = false;
   speechSynthesis.cancel();
-  speechSynthesis.speak(speech);
 }
 
-function startCalm() {
-  speak("چشمانت را ببند... نفس عمیق بکش... تو در آرامش هستی");
-}
-</script>
+/* تایپ */
+function type() {
+  if (!isRunning) return;
 
-</body>
-</html>
+  if (i < messages.length) {
+    if (j < messages[i].length) {
+      document.getElementById("text").innerHTML += messages[i][j];
+      j++;
+      setTimeout(type, 40);
+    } else {
+      speak(messages[i]);
+      i++;
+      j = 0;
+      document.getElementById("text").innerHTML += "<br><br>";
+      setTimeout(type, 1200);
+    }
+  }
+}
+
+/* 🎤 ص
