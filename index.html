@@ -1,49 +1,26 @@
-<!DOCTYPE html>
-<html lang="fa">
-<head>
-  <meta charset="UTF-8">
-  <title>Calm Zone</title>
-</head>
-<body style="background:#111;color:#fff;text-align:center;padding-top:50px;">
-
-<h1>Calm Zone 🌿</h1>
-
-<input type="text" id="text" placeholder="متن رو بنویس">
-<br><br>
-<button onclick="speak()">پخش صدا ✨</button>
-
 <script>
 function speak() {
   const text = document.getElementById("text").value;
+
   const speech = new SpeechSynthesisUtterance(text);
 
-  function loadVoiceAndSpeak() {
-    let voices = speechSynthesis.getVoices();
-    let faVoice = voices.find(v => v.lang === "fa-IR");
+  let voices = speechSynthesis.getVoices();
 
-    if (faVoice) {
-      speech.voice = faVoice;
-      speech.lang = "fa-IR";
-    } else {
-      let enVoice = voices.find(v => v.lang.includes("en"));
-      speech.voice = enVoice;
-      speech.lang = "en-US";
-    }
+  // انتخاب بهترین صدا (فارسی یا طبیعی‌ترین)
+  let voice =
+    voices.find(v => v.lang === "fa-IR") ||
+    voices.find(v => v.lang.includes("en") && v.name.includes("Google")) ||
+    voices[0];
 
-    speech.rate = 0.9;
-    speech.pitch = 1;
+  speech.voice = voice;
+  speech.lang = voice.lang;
 
-    speechSynthesis.cancel();
-    speechSynthesis.speak(speech);
-  }
+  speech.rate = 0.85;
+  speech.pitch = 1;
 
-  if (speechSynthesis.getVoices().length === 0) {
-    speechSynthesis.onvoiceschanged = loadVoiceAndSpeak;
-  } else {
-    loadVoiceAndSpeak();
-  }
+  speech.volume = 1;
+
+  speechSynthesis.cancel();
+  speechSynthesis.speak(speech);
 }
 </script>
-
-</body>
-</html>
