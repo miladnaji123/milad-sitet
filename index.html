@@ -2,7 +2,7 @@
 <html lang="fa">
 <head>
 <meta charset="UTF-8">
-<title>اپ متن و صدا</title>
+<title>اپ ساده</title>
 
 <style>
 body {
@@ -10,122 +10,66 @@ body {
   text-align: center;
   background: #0f172a;
   color: white;
-  padding: 30px;
+  padding-top: 50px;
 }
 
-h1 {
-  margin-bottom: 30px;
-}
-
-button {
-  margin: 10px;
-  padding: 12px 20px;
-  border: none;
-  border-radius: 10px;
+/* دایره */
+#circle {
+  width: 220px;
+  height: 220px;
   background: #22c55e;
-  color: white;
-  font-size: 16px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 30px auto;
+  font-size: 18px;
+  padding: 20px;
   cursor: pointer;
 }
 
-button:hover {
-  background: #16a34a;
-}
-
-#textBox {
-  margin-top: 30px;
-  font-size: 18px;
+button {
+  margin: 5px;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 8px;
   background: #1e293b;
-  padding: 20px;
-  border-radius: 10px;
+  color: white;
+  cursor: pointer;
 }
 </style>
 
 </head>
 <body>
 
-<h1>🎧 متن‌های جذاب با صدا</h1>
+<h2>🎧 متن با صدا</h2>
 
-<button onclick="playCategory('calm')">🌿 آرامش</button>
-<button onclick="playCategory('motivation')">💪 انگیزشی</button>
-<button onclick="playCategory('bio')">📖 زندگی‌نامه</button>
-<button onclick="playCategory('love')">❤️ احساسی</button>
+<button onclick="setCategory('calm')">🌿 آرامش</button>
+<button onclick="setCategory('motivation')">💪 انگیزشی</button>
+<button onclick="setCategory('bio')">📖 زندگی‌نامه</button>
 
-<div id="textBox">روی یکی از دکمه‌ها بزن 👆</div>
+<div id="circle" onclick="playText()">
+بزن اینجا 🎤
+</div>
 
 <script>
+
+let currentCategory = "calm";
 
 const categories = {
 
   calm: [
-    "نفس بکش… همه چیز درست می‌شود.",
-    "آرامش از درون تو شروع می‌شود.",
-    "ذهن آرام، زندگی زیبا می‌سازد."
+    "نفس بکش، همه چی درست میشه",
+    "آرام باش، دنیا میگذره"
   ],
 
   motivation: [
-    "تو قوی‌تر از چیزی هستی که فکر می‌کنی.",
-    "شروع کن، حتی اگر کامل نیستی.",
-    "هیچ موفقیتی بدون تلاش به دست نمی‌آید."
+    "تو میتونی",
+    "شروع کن حتی کوچیک"
   ],
 
   bio: [
-    "استیو جابز از یک گاراژ شروع کرد و دنیا را تغییر داد.",
-    "ایلان ماسک بارها شکست خورد اما تسلیم نشد.",
-    "هر انسان موفقی، یک روز از صفر شروع کرده است."
-  ],
-
-  love: [
-    "گاهی سکوت، زیباتر از هزار کلمه است.",
-    "دل آرام، زندگی آرام می‌سازد.",
-    "لبخند تو می‌تواند دنیا را تغییر دهد."
-  ]
-
-};
-
-function playCategory(type) {
-
-  const list = categories[type];
-  const text = list[Math.floor(Math.random() * list.length)];
-
-  document.getElementById("textBox").innerText = text;
-
-  speak(text);
-}
-
-function speak(text) {
-
-  const speech = new SpeechSynthesisUtterance(text);
-
-  function loadVoiceAndSpeak() {
-
-    let voices = speechSynthesis.getVoices();
-    let faVoice = voices.find(v => v.lang === "fa-IR");
-
-    if (faVoice) {
-      speech.voice = faVoice;
-      speech.lang = "fa-IR";
-    } else {
-      let enVoice = voices.find(v => v.lang.includes("en"));
-      speech.voice = enVoice;
-      speech.lang = "en-US";
-    }
-
-    speech.rate = 0.9;
-    speech.pitch = 1;
-
-    speechSynthesis.cancel();
-    speechSynthesis.speak(speech);
-  }
-
-  if (speechSynthesis.getVoices().length === 0) {
-    speechSynthesis.onvoiceschanged = loadVoiceAndSpeak;
-  } else {
-    loadVoiceAndSpeak();
-  }
-}
-
-</script>
-
+    "استیو جابز از گاراژ شروع کرد",
+    "ایلان ماسک زیاد شکست
 </body>
 </html>
